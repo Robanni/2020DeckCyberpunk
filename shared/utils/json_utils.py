@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Union
 import json
 
-from models.character import Character
+from core.models.character import Character
 
 
 def load_character_from_json(path: Union[str, Path]) -> Character:

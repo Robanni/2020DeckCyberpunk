@@ -1,0 +1,114 @@
+{
+  "name": "optimus prime",
+  "handle": "Samurai",
+  "role": "Rockerboy",
+  "stats": {
+    "INT": 7,
+    "REF": 9,
+    "TECH": 7,
+    "COOL": 10,
+    "ATTR": 3,
+    "LUCK": 6,
+    "MA": 8,
+    "BODY": 7,
+    "EMP": 4
+  },
+  "special_ability": "Charismatic Leadership",
+  "armor": {
+    "head": {
+      "name": "head",
+      "value": 12
+    },
+    "body": {
+      "name": "body",
+      "value": 7
+    },
+    "left_arm": {
+      "name": "left_arm",
+      "value": 4
+    },
+    "right_arm": {
+      "name": "right_arm",
+      "value": 12
+    },
+    "left_leg": {
+      "name": "left_leg",
+      "value": 4
+    },
+    "right_leg": {
+      "name": "right_leg",
+      "value": 17
+    }
+  },
+  "skills": [
+    {
+      "name": "Pistol",
+      "level": 10
+    },
+    {
+      "name": "Composition",
+      "level": 9
+    },
+    {
+      "name": "Performance",
+      "level": 10
+    },
+    {
+      "name": "Persuasion",
+      "level": 8
+    },
+    {
+      "name": "Streetwise",
+      "level": 9
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Malorian Arms 3516",
+      "type": "Power Handgun",
+      "description": "Custom .50 caliber handgun. 'The only gun that'll shoot through a tank'"
+    },
+    {
+      "name": "Armored Rockerjacket",
+      "type": "Light Armor Jacket",
+      "description": "SP 10, looks like a classic rocker jacket"
+    },
+    {
+      "name": "Guitar Case",
+      "type": "Container",
+      "description": "Holds guitar and ammo"
+    }
+  ],
+  "cyberware": [
+    {
+      "name": "Silverhand Cyberarm",
+      "humanity_cost": 14,
+      "description": "Chrome-plated cybernetic left arm with reinforced strength"
+    },
+    {
+      "name": "Subdermal Grip",
+      "humanity_cost": 3,
+      "description": "Palm-mounted grip implant for weapon stability"
+    },
+    {
+      "name": "AudioVox Enhancer",
+      "humanity_cost": 5,
+      "description": "Vocal cord enhancement for performances"
+    }
+  ],
+  "lifepath": {
+    "origin": "Military Brat",
+    "family": "Both parents deceased (Militech conflict)",
+    "motivation": "Fight corporate oppression",
+    "enemies": [
+      "Adam Smasher",
+      "Arasaka Corp",
+      "Militech Execs"
+    ],
+    "romance": "Alt Cunningham (deceased)"
+  },
+  "humanity": 78,
+  "reputation": 9,
+  "money": 2500,
+  "notes": "Former frontman of SAMURAI. Lost left arm in 2023 Arasaka Tower raid. Hates corporations with a passion."
+}
