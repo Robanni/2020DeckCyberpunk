@@ -35,7 +35,7 @@ class CharacterController:
         default_char = self.service.get_character("Johnny Silverhand")
         if default_char:
             return default_char
-        return Character.generate_default()
+        return self.service.create_default_character()
 
     def update_character(self, character: Character):
         """Обновляет модель на основе данных из View (без сохранения)"""
@@ -79,19 +79,16 @@ class CharacterController:
         )
         if path:
             self.current_file_path = Path(path)
-            try:
-                loaded = self.service.load_character(self.current_file_path)
-                if loaded is not None:
-                    self.character = loaded 
-                    self.view.update_character(self.character)
-                else:
-                    print("Не удалось загрузить персонажа: файл пустой или повреждён.")
-            except Exception as e:
-                print(f"Ошибка загрузки: {e}")
+            loaded = self.service.load_character(self.current_file_path)
+            if loaded:
+                self.character = loaded
+                self.view.update_character(self.character)
+            else:
+                print("Не удалось загрузить персонажа: файл пустой или повреждён.")
 
     def new_character(self):
         """Создаёт нового персонажа с настройками по умолчанию"""
-        self.character = Character.generate_default()
+        self.character = self.service.create_default_character()
         self.current_file_path = None
         self.view.update_character(self.character)
 
@@ -105,25 +102,20 @@ class CharacterController:
 
     def update_skill(self, skill_name: str, level: int):
         """Обновляет конкретный навык"""
-        # Находим существующий навык или создаем новый
-        existing_skill = next(
-            (s for s in self.character.skills if s.name == skill_name), None)
-        if existing_skill:
-            existing_skill.level = level
-        else:
-            self.character.skills.append(Skill(name=skill_name, level=level))
+        # Переносим логику в сервис
+        self.service.update_skill(self.character, skill_name, level)
 
     def add_cyberware(self, cyberware: Cyberware):
         """Добавляет кибернетику"""
         self.character.cyberware.append(cyberware)
-        self.character.apply_cyberware_costs() 
+        self.character.apply_cyberware_costs()
         self.view.update_character(self.character)
 
     def remove_cyberware(self, implant_name: str):
         """Удаляет кибернетику"""
         self.character.cyberware = [
             c for c in self.character.cyberware if c.name != implant_name]
-        self.character.apply_cyberware_costs()  
+        self.character.apply_cyberware_costs()
         self.view.update_character(self.character)
 
     def add_equipment(self, equipment: Equipment):

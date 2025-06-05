@@ -15,6 +15,10 @@ class CharacterStats(BaseModel):
 
     def average(self) -> float:
         return sum(self.dict().values()) / len(self.dict())
+    
+    @classmethod
+    def generate_default(cls) -> 'CharacterStats':
+        return cls(INT=5, REF=5, TECH=5, COOL=5, ATTR=5, LUCK=5, MA=5, BODY=5, EMP=5)
 
 
 class Skill(BaseModel):
