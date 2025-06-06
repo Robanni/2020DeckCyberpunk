@@ -32,3 +32,7 @@
 
 ```bash
 pip install -r requirements.txt
+```
+
+### 📥 Контакты:
+- Teelegram: [Канал](https://t.me/RobanniDev)
