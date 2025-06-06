@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import "tabs" 
+import "tabs"
 
 ApplicationWindow {
     visible: true
@@ -9,12 +9,9 @@ ApplicationWindow {
     title: "2020DECK — Панель игрока"
 
     Column {
-        anchors.fill: parent
-
-
         TabBar {
             id: tabBar
-            currentIndex: stackView.currentIndex  
+            currentIndex: 0
 
             TabButton {
                 text: "🎭 Персонаж"
@@ -45,44 +42,49 @@ ApplicationWindow {
             }
         }
 
-
         StackView {
             id: stackView
-            anchors.fill: parent
+            anchors.top: tabBar.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            
 
-            // Вкладка по умолчанию
-            initialItem: "tabs/CharacterTab.qml"  
+            initialItem: null
         }
-
 
         Connections {
             target: tabBar
 
-            onCurrentIndexChanged: {
+            function onCurrentIndexChanged() {
+                stackView.clear();
                 switch (tabBar.currentIndex) {
-                    case 0:
-                        stackView.push("tabs/CharacterTab.qml");
-                        break;
-                    case 1:
-                        stackView.push("tabs/ArmorTab.qml");
-                        break;
-                    case 2:
-                        stackView.push("tabs/SkillsTab.qml");
-                        break;
-                    case 3:
-                        stackView.push("tabs/CyberwareTab.qml");
-                        break;
-                    case 4:
-                        stackView.push("tabs/EquipmentTab.qml");
-                        break;
-                    case 5:
-                        stackView.push("tabs/LifepathTab.qml");
-                        break;
-                    case 6:
-                        stackView.push("tabs/OtherInfoTab.qml");
-                        break;
+                case 0:
+                    stackView.push("tabs/CharacterTab.qml");
+                    break;
+                case 1:
+                    stackView.push("tabs/ArmorTab.qml");
+                    break;
+                case 2:
+                    stackView.push("tabs/SkillsTab.qml");
+                    break;
+                case 3:
+                    stackView.push("tabs/CyberwareTab.qml");
+                    break;
+                case 4:
+                    stackView.push("tabs/EquipmentTab.qml");
+                    break;
+                case 5:
+                    stackView.push("tabs/LifepathTab.qml");
+                    break;
+                case 6:
+                    stackView.push("tabs/OtherInfoTab.qml");
+                    break;
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        stackView.push(Qt.resolvedUrl("tabs/CharacterTab.qml"));
     }
 }

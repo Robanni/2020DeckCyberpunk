@@ -1,4 +1,5 @@
 from PySide6.QtCore import QObject, Property
+from desktop.backend.info_bridge import InfoBridge
 from desktop.backend.stats_bridge import StatsBridge
 from core.services.character_service import CharacterService
 from desktop.controllers.character_controller import CharacterController
@@ -10,8 +11,18 @@ class CharacterBridge(QObject):
         super().__init__()
 
         self.controller = CharacterController(view=view, character_service=character_service)
+
         
+        self._info_bridge = InfoBridge(character=self.controller.character)
         self._stats_bridge = StatsBridge(stats=self.controller.character.stats)
+
+    def get_info(self):
+        return self._info_bridge
+
+    def set_info(self, value):
+        self._info_bridge = value
+
+    info = Property(QObject, get_info, set_info, None, "")
 
     def get_stats(self):
         return self._stats_bridge
