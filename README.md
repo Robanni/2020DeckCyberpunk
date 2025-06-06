@@ -34,5 +34,5 @@
 pip install -r requirements.txt
 ```
 
-### 📥 Контакты:
+### 😍 Контакты:
 - Teelegram: [Канал](https://t.me/RobanniDev)
