@@ -59,7 +59,7 @@ ApplicationWindow {
                 currentIndex: tabBar.currentIndex
 
                 CharacterTab {}
-                ArmorTab {}
+                CharacterStatusTab {}
                 SkillsTab {}
                 CyberwareTab {}
                 EquipmentTab {}
