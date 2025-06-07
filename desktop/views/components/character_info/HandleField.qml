@@ -1,16 +1,19 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import "../shared"
 
-Item {
+RowLayout {
+    spacing: 10
     property alias text: handleField.text
-
-
-    Row {
-        spacing: 10
-        Label { text: "Кличка:" }
-        TextField {
-            id: handleField
-            width: 200
-        }
+    
+    CyberLabel {
+        text: "Кличка:"
+        Layout.preferredWidth: 120
+    }
+    
+    CyberTextField {
+        id: handleField
+        Layout.fillWidth: true
     }
 }

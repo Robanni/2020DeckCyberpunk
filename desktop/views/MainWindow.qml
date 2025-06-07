@@ -1,90 +1,71 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
+import QtQuick.Layouts 1.15
 import "tabs"
 
 ApplicationWindow {
     visible: true
-    width: 800
-    height: 600
+    width: 1024
+    height: 768
     title: "2020DECK — Панель игрока"
+    Material.theme: Material.Dark
+    Material.accent: Material.Purple
 
-    Column {
+    // Image {
+    //     source: "qrc:/images/cyberpunk_bg.jpg"
+    //     anchors.fill: parent
+    //     opacity: 0.15
+    //     fillMode: Image.PreserveAspectCrop
+    // }
+
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
+
+        // Стилизованная панель вкладок
         TabBar {
             id: tabBar
+            Layout.fillWidth: true
             currentIndex: 0
+            Material.background: "#1a1a2e"
+            Material.foreground: "#e94560"
 
-            TabButton {
-                text: "🎭 Персонаж"
-            }
-
-            TabButton {
-                text: "🛡️ Броня"
-            }
-
-            TabButton {
-                text: "🔧 Навыки"
-            }
-
-            TabButton {
-                text: "⚙️ Кибернетика"
-            }
-
-            TabButton {
-                text: "🔫 Оборудование"
-            }
-
-            TabButton {
-                text: "📝 Жизненный Путь"
-            }
-
-            TabButton {
-                text: "📋 Прочее"
-            }
-        }
-
-        StackView {
-            id: stackView
-            anchors.top: tabBar.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            
-
-            initialItem: null
-        }
-
-        Connections {
-            target: tabBar
-
-            function onCurrentIndexChanged() {
-                stackView.clear();
-                switch (tabBar.currentIndex) {
-                case 0:
-                    stackView.push("tabs/CharacterTab.qml");
-                    break;
-                case 1:
-                    stackView.push("tabs/ArmorTab.qml");
-                    break;
-                case 2:
-                    stackView.push("tabs/SkillsTab.qml");
-                    break;
-                case 3:
-                    stackView.push("tabs/CyberwareTab.qml");
-                    break;
-                case 4:
-                    stackView.push("tabs/EquipmentTab.qml");
-                    break;
-                case 5:
-                    stackView.push("tabs/LifepathTab.qml");
-                    break;
-                case 6:
-                    stackView.push("tabs/OtherInfoTab.qml");
-                    break;
+            Repeater {
+                model: ["🎭 Персонаж", "🛡️ Броня", "🔧 Навыки", "⚙️ Кибернетика", "🔫 Оборудование", "📝 Жизненный Путь", "📋 Прочее"]
+                
+                TabButton {
+                    text: modelData
+                    padding: 12
+                    font.bold: true
+                    font.pixelSize: 14
                 }
             }
         }
-    }
-    Component.onCompleted: {
-        stackView.push(Qt.resolvedUrl("tabs/CharacterTab.qml"));
+
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: "#16213e"
+            border.color: "#e94560"
+            border.width: 1
+            radius: 4
+
+            StackLayout {
+                id: stackLayout
+                anchors.fill: parent
+                anchors.margins: 10
+                currentIndex: tabBar.currentIndex
+
+                CharacterTab {}
+                ArmorTab {}
+                SkillsTab {}
+                CyberwareTab {}
+                EquipmentTab {}
+                LifepathTab {}
+                OtherInfoTab {}
+            }
+        }
     }
 }
