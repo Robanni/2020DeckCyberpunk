@@ -68,14 +68,23 @@ ScrollView {
 
                 Repeater {
                     model: blockCount
-                    delegate: HealthBlock {
-                        blockId: index
-                        labelStatus: painStatus[index].first    
-                        labelStun: painStatus[index].second  
-                        status: main.blocksStatus[index]
-                        boxClicked: main.handleBoxClick
-                        Layout.alignment: Qt.AlignTop 
-                       
+                    delegate: Rectangle {
+                        color: "transparent"
+                        border.color: "yellow"
+                        border.width: 1
+                        radius: 4
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        HealthBlock {
+                            anchors.fill: parent
+                            blockId: index
+                            labelStatus: painStatus[index].first    
+                            labelStun: painStatus[index].second  
+                            status: main.blocksStatus[index]
+                            boxClicked: main.handleBoxClick
+                        }
                     }
                 }
             }

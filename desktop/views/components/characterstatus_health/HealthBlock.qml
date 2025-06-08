@@ -25,6 +25,7 @@ Item {
         GridLayout {
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
+            Layout.alignment: Qt.AlignHCenter
             columns: status.length
             rowSpacing: 5
             columnSpacing: 5

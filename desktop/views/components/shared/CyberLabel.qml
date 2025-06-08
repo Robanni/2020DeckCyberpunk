@@ -4,33 +4,31 @@ import Qt5Compat.GraphicalEffects
 
 Label {
     property bool header: false
+    property int animationDuration: 2200 // Длительность одного этапа анимации в мс
 
-    color: "#e94560" // Неоново-розовый цвет
+    color: "#e94560" // Розовато-красный основной цвет проекта
     font {
         family: header ? "Courier New" : "Arial"
         bold: true
         pixelSize: header ? 18 : 14
-        letterSpacing: header ? 1.5 : 0.5
+        letterSpacing: header ? 1.2 : 0.4
     }
 
-    // Эффект свечения через тень текста (альтернатива Glow)
+    // Мягкое, анимированное свечение
     layer.enabled: true
     layer.effect: DropShadow {
-        color: "#e94560"
-        radius: 3
+        id: shadow
+        color: "#ffb3c6" // Очень светлый розовый для свечения
+        radius: 2
         samples: 6
-        spread: 0.2
-    }
-
-    // Простая анимация без QtQuick.Animations
-    Timer {
-        interval: 50
-        running: true
-        repeat: true
-        property real hue: 0
-        onTriggered: {
-            hue = (hue + 0.01) % 1.0
-            parent.color = Qt.hsva(hue, 0.8, 1.0, 1.0)
+        spread: 0.02
+        transparentBorder: true
+        opacity: 0.4
+        // Анимация свечения
+        SequentialAnimation on opacity {
+            loops: Animation.Infinite
+            NumberAnimation { to: 0.7; duration: animationDuration; easing.type: Easing.InOutQuad }
+            NumberAnimation { to: 0.3; duration: animationDuration; easing.type: Easing.InOutQuad }
         }
     }
 }
