@@ -11,6 +11,18 @@ Item {
 
     property int blockCount: 10
     property int boxesPerBlock: 4
+    property var painStatus: [
+        { first: "Легкое", second: "Stun=0" },
+        { first: "Серьёзное", second: "Stun=1" },
+        { first: "Критическое", second: "Stun=2" },
+        { first: "Смертельное 0", second: "Stun=3" },
+        { first: "Смертельное 1", second: "Stun=4" },
+        { first: "Смертельное 2", second: "Stun=5" },
+        { first: "Смертельное 3", second: "Stun=6" },
+        { first: "Смертельное 4", second: "Stun=7" },
+        { first: "Смертельное 5", second: "Stun=8" },
+        { first: "Смертельное 6", second: "Stun=9" }
+    ]
 
     property var blocksStatus: initStatus(blockCount, boxesPerBlock)
 
@@ -57,11 +69,13 @@ ScrollView {
                 Repeater {
                     model: blockCount
                     delegate: HealthBlock {
-                        scale:1.5
                         blockId: index
-                        label: "Блок " + (index + 1)
+                        labelStatus: painStatus[index].first    
+                        labelStun: painStatus[index].second  
                         status: main.blocksStatus[index]
                         boxClicked: main.handleBoxClick
+                        Layout.alignment: Qt.AlignTop 
+                       
                     }
                 }
             }

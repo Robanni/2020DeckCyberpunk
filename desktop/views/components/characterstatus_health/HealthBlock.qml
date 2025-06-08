@@ -6,7 +6,8 @@ import "../shared"
 Item {
     id: root
     property int blockId: -1
-    property string label: "Уровень"
+    property string labelStatus: "Уровень"
+    property string labelStun: "Уровень"
     property var status: []
     property var boxClicked: function(blockId, boxIndex) {} 
     
@@ -15,7 +16,7 @@ Item {
         spacing: 15
         
         CyberLabel{
-            text: root.label
+            text: root.labelStatus
             font.bold: true
             font.pointSize: 14
             Layout.alignment: Qt.AlignHCenter
@@ -33,9 +34,8 @@ Item {
                 delegate: Rectangle {
                     id: box
                     property bool active: status[index]
-                    
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
                     color: active ? "red" : "white"
                     border { color: "black"; width: 1 }
                     
@@ -49,6 +49,12 @@ Item {
                     }
                 }
             }
+        }
+        CyberLabel{
+            text: root.labelStun
+            font.bold: true
+            font.pointSize: 8
+            Layout.alignment: Qt.AlignHCenter
         }
     }
 }
