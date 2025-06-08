@@ -1,4 +1,3 @@
-# desktop/controllers/character_controller.py
 from pathlib import Path
 
 from PySide6.QtWidgets import QFileDialog

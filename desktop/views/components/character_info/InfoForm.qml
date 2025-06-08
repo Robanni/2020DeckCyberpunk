@@ -7,7 +7,7 @@ GridLayout {
     columns: 2
     columnSpacing: 20
     rowSpacing: 15
-    property var infoBridge
+    property var infoBridge:characterBridge.info
 
 
     Label {

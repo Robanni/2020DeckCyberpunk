@@ -20,6 +20,8 @@ class CharacterStats(BaseModel):
     def generate_default(cls) -> 'CharacterStats':
         return cls(INT=5, REF=5, TECH=5, COOL=5, ATTR=5, LUCK=5, MA=5, BODY=5, EMP=5)
 
+class Health(BaseModel):
+    current_damage: int = 0
 
 class Skill(BaseModel):
     name: str
@@ -64,6 +66,7 @@ class Character(BaseModel):
     role: str                   
     stats: CharacterStats
     special_ability: str
+    health: Health  
     armor: Armor
 
     skills: List[Skill] = []
@@ -88,6 +91,7 @@ class Character(BaseModel):
             role="Solo",
             stats=CharacterStats(**{stat: 5 for stat in CharacterStats.model_fields}),
             special_ability = "",
+            health=Health(current_damage=0),
             armor=Armor(),
             lifepath=Lifepath(
                 origin="",

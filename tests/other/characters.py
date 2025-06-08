@@ -1,4 +1,4 @@
-from core.models.character import Armor, Character, CharacterStats, Skill, Equipment, Cyberware, Lifepath
+from core.models.character import Armor, Character, CharacterStats, Health, Skill, Equipment, Cyberware, Lifepath
 
 # Создаем персонажа Johnny Silverhand
 johnny = Character(
@@ -16,6 +16,7 @@ johnny = Character(
         BODY=7,
         EMP=4  # Низкая эмпатия из-за кибернетики
     ),
+    health=Health(current_damage=0),
     armor=Armor(),
     special_ability="Charismatic Leadership",
     skills=[

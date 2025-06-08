@@ -38,7 +38,6 @@ Item {
                 InfoForm {
                     anchors.fill: parent
                     anchors.margins: 15
-                    infoBridge: characterBridge.info
                 }
             }
 
@@ -59,7 +58,6 @@ Item {
                         right: parent.right
                         margins: 15
                     }
-                    statsBridge: characterBridge.stats
                 }
             }
         }

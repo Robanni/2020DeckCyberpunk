@@ -14,6 +14,9 @@
     "EMP": 4
   },
   "special_ability": "Charismatic Leadership",
+  "health": {
+    "current_damage": 15
+  },
   "armor": {
     "head": {
       "name": "head",

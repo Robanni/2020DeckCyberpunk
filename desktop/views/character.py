@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout, QLabel, QGroupBox, QGridLayout, QComboBox, QMessageBox
 )
 from PySide6.QtCore import Qt, Signal
-from core.models.character import Armor, BodyPart, Character, CharacterStats, Skill, Equipment, Cyberware, Lifepath
+from core.models.character import Armor, BodyPart, Character, CharacterStats, Health, Skill, Equipment, Cyberware, Lifepath
 from desktop.views.equipment_dialog import EquipmentDialog
 
 
@@ -609,6 +609,7 @@ class CharacterView(QWidget):
             special_ability=self.special_ability_edit.text(),
             stats=stats,
             skills=skills,
+            health=Health(current_damage=0),
             armor=armor,
             equipment=[],
             cyberware=[],

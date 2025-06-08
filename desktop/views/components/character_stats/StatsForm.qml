@@ -7,7 +7,7 @@ ColumnLayout {
     id: statsForm
     spacing: 12
     Layout.fillWidth: true
-    property var statsBridge
+    property var statsBridge:characterBridge.stats
 
     StatField {
         label: "Телосложение"
