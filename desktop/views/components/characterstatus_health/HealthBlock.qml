@@ -3,19 +3,24 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import "../shared"
 
+
 Item {
     id: root
     property int blockId: -1
     property string labelStatus: "Уровень"
     property string labelStun: "Уровень"
     property var status: []
-    property var boxClicked: function(blockId, boxIndex) {} 
+    property var boxClicked: function(blockId, boxIndex) {}
+    
+    implicitWidth: Math.max(statusLabel.implicitWidth, stunLabel.implicitWidth, boxesGrid.implicitWidth) + 20
+    implicitHeight: statusLabel.implicitHeight + boxesGrid.implicitHeight + stunLabel.implicitHeight + 20
     
     ColumnLayout {
         anchors.fill: parent
-        spacing: 15
+        spacing: 5
         
-        CyberLabel{
+        CyberLabel {
+            id: statusLabel
             text: root.labelStatus
             font.bold: true
             font.pointSize: 14
@@ -23,8 +28,7 @@ Item {
         }
 
         GridLayout {
-            Layout.fillWidth: true
-            Layout.preferredHeight: implicitHeight
+            id: boxesGrid
             Layout.alignment: Qt.AlignHCenter
             columns: status.length
             rowSpacing: 5
@@ -44,14 +48,14 @@ Item {
                     
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {
-                            root.boxClicked(root.blockId, index)
-                        }
+                        onClicked: root.boxClicked(root.blockId, index)
                     }
                 }
             }
         }
-        CyberLabel{
+        
+        CyberLabel {
+            id: stunLabel
             text: root.labelStun
             font.bold: true
             font.pointSize: 8
