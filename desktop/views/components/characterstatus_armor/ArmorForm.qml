@@ -19,31 +19,43 @@ Item {
         ArmorBlock {
             label: "Голова"
             value: root.armorBridge ? root.armorBridge.head : 0
+            Layout.row: 0
+            Layout.column: 1
         }
 
         ArmorBlock {
             label: "Торс"
             value: root.armorBridge ? root.armorBridge.body : 0
+            Layout.row: 1
+            Layout.column: 1
         }
 
         ArmorBlock {
             label: "Левая рука"
             value: root.armorBridge ? root.armorBridge.leftArm : 0
+            Layout.row: 1
+            Layout.column: 0
         }
 
         ArmorBlock {
             label: "Правая рука"
-            value: root.armorBridge ? root.armorBridge.rightArm: 0
+            value: root.armorBridge ? root.armorBridge.rightArm : 0
+            Layout.row: 1
+            Layout.column: 2
         }
 
         ArmorBlock {
             label: "Левая нога"
             value: root.armorBridge ? root.armorBridge.leftLeg : 0
+            Layout.row: 2
+            Layout.column: 0
         }
 
         ArmorBlock {
             label: "Правая нога"
             value: root.armorBridge ? root.armorBridge.rightLeg : 0
+            Layout.row: 2
+            Layout.column: 2
         }
     }
 }
