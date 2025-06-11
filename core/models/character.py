@@ -48,16 +48,13 @@ class Lifepath(BaseModel):
     romance: Optional[str] = ""
 
 
-class BodyPart(BaseModel):
-    name: str
-    value: int = 0  
 class Armor(BaseModel):
-    head: BodyPart = Field(default_factory=lambda: BodyPart(name="head"))
-    body: BodyPart = Field(default_factory=lambda: BodyPart(name="body"))
-    left_arm: BodyPart = Field(default_factory=lambda: BodyPart(name="left_arm"))
-    right_arm: BodyPart = Field(default_factory=lambda: BodyPart(name="right_arm"))
-    left_leg: BodyPart = Field(default_factory=lambda: BodyPart(name="left_leg"))
-    right_leg: BodyPart = Field(default_factory=lambda: BodyPart(name="right_leg"))
+    head: int = 0  
+    body: int = 0  
+    left_arm: int = 0  
+    right_arm: int = 0  
+    left_leg: int = 0  
+    right_leg: int = 0  
 
 
 class Character(BaseModel):

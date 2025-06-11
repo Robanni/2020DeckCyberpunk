@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import "../components/characterstatus_health"
+import "../components/characterstatus_armor"
 import "../components/characterstatus_health/HealthLogic.js" as HealthLogic
 
 Item {
@@ -22,6 +23,12 @@ Item {
                 id: healthForm
                 Layout.fillWidth: true
                 Layout.preferredHeight: healthForm.implicitHeight
+            }
+
+            ArmorForm {
+                id: armorForm
+                Layout.fillWidth: true
+                Layout.preferredHeight: armorForm.implicitHeight
             }
         }
     }

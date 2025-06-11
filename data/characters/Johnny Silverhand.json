@@ -18,30 +18,12 @@
     "current_damage": 15
   },
   "armor": {
-    "head": {
-      "name": "head",
-      "value": 12
-    },
-    "body": {
-      "name": "body",
-      "value": 7
-    },
-    "left_arm": {
-      "name": "left_arm",
-      "value": 4
-    },
-    "right_arm": {
-      "name": "right_arm",
-      "value": 12
-    },
-    "left_leg": {
-      "name": "left_leg",
-      "value": 4
-    },
-    "right_leg": {
-      "name": "right_leg",
-      "value": 17
-    }
+    "head": 12,
+    "body": 15,
+    "left_arm":25,
+    "right_arm": 12,
+    "left_leg": 11,
+    "right_leg": 11
   },
   "skills": [
     {

@@ -32,7 +32,8 @@ ApplicationWindow {
         // Проверяем наличие всех необходимых данных
         if (characterBridge.status && 
             characterBridge.stats && 
-            characterBridge.info) {
+            characterBridge.info &&
+            characterBridge.armor) {
             isDataLoaded = true
         }
     }
