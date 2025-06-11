@@ -6,6 +6,7 @@ import "."
 Item {
     id: root
     property var armorBridge: characterBridge.armor
+    implicitHeight: grid.implicitHeight + 20
 
     GridLayout {
         id: grid

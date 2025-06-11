@@ -40,7 +40,7 @@ RowLayout {
     SpinBox {
         value: parent.value
         from: 1
-        to: 10
+        to: 20
         editable: true
         Material.accent: Material.Purple
         Material.foreground: "white"

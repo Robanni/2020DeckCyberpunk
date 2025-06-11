@@ -3,7 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import "../components/character_info"
 import "../components/character_stats"
-import "../components/shared"
+import "../shared"
 
 
 Item {

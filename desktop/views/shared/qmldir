@@ -1,0 +1,3 @@
+module Theme
+singleton Theme 1.0 Theme.qml
+# idk how to use it in python(
