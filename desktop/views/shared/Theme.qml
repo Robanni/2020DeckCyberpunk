@@ -11,6 +11,7 @@ QtObject {
     property color surface: "#16213e"
     property color highlight: "#20e94560"
     property color danger: "#ff5555"
+    property color text: "#e94560"
 
     // 🔤 Шрифты
     property int fontSizeNormal: 14

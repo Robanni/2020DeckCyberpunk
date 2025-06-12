@@ -32,7 +32,9 @@
     },
     {
       "name": "Composition",
-      "level": 9
+      "level": 9,
+      "category": "EMP",
+      "description": "I can compose a song in 5 minutes"
     },
     {
       "name": "Performance",

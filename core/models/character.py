@@ -25,7 +25,9 @@ class Health(BaseModel):
 
 class Skill(BaseModel):
     name: str
-    level: int = Field(ge=1, le=10)
+    category: Optional[str] = ""
+    description: Optional[str] = ""
+    level: int = Field(ge=0, le=15)
 
 
 class Equipment(BaseModel):

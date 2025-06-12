@@ -2,13 +2,11 @@ from pathlib import Path
 
 from PySide6.QtWidgets import QFileDialog
 from core.models.character import Character, Cyberware, Equipment, Skill
-from desktop.views.character import CharacterView
 from core.services.character_service import CharacterService
 
 
 class CharacterController:
-    def __init__(self, view: CharacterView, character_service: CharacterService):
-        self.view = view
+    def __init__(self, character_service: CharacterService):
         self.service = character_service
 
         self.default_save_path = Path("data/characters")
@@ -17,17 +15,6 @@ class CharacterController:
 
         self.character: Character = self._load_default_character()
 
-        # Подключаем сигналы
-        self.view.character_updated.connect(self.update_character)
-        self.view.skill_updated.connect(self.service.update_skill)
-        self.view.cyberware_added.connect(self.add_cyberware)
-        self.view.cyberware_removed.connect(self.remove_cyberware)
-        self.view.equipment_added.connect(self.add_equipment)
-        self.view.equipment_removed.connect(self.remove_equipment)
-
-        self.view.save_requested.connect(self.save_character)
-        self.view.load_requested.connect(self.load_character)
-        self.view.new_character_requested.connect(self.new_character)
 
     def _load_default_character(self):
         default = self.service.get_character("Johnny Silverhand")

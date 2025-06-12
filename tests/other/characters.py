@@ -20,11 +20,11 @@ johnny = Character(
     armor=Armor(),
     special_ability="Charismatic Leadership",
     skills=[
-        Skill(name="Pistol", level=10),
-        Skill(name="Composition", level=9),
-        Skill(name="Performance", level=10),
-        Skill(name="Persuasion", level=8),
-        Skill(name="Streetwise", level=9)
+        Skill(name="Pistol", level=10, category="REF"),
+        Skill(name="Composition", level=9, category="COOL"),
+        Skill(name="Performance", level=10, category="ATTR"),
+        Skill(name="Persuasion", level=8, category="INT"),
+        Skill(name="Streetwise", level=9, category="COOL")
     ],
     equipment=[
         Equipment(

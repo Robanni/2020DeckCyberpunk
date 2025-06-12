@@ -4,7 +4,6 @@ from PySide6.QtQml import QQmlApplicationEngine
 
 from core.services.character_service import CharacterService
 from desktop.backend.character_bridge import CharacterBridge
-from desktop.views.character import CharacterView
 
 import os
 os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"  # Или "Fusion", "Basic"
@@ -13,8 +12,7 @@ app = QApplication([])
 
 # Создаем контроллер
 character_service = CharacterService()
-view = CharacterView()
-character_bridge = CharacterBridge(view=view, character_service=character_service)
+character_bridge = CharacterBridge( character_service=character_service)
 
 engine = QQmlApplicationEngine()
 

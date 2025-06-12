@@ -4,8 +4,10 @@ import QtQuick.Layouts 1.15
 import QtQuick.Controls.Material 2.15
 
 RowLayout {
+    id:root
     property string label
     property int value
+    property int maxValue:20
     signal spinValueChanged(int newValue)
 
     spacing: 15
@@ -29,7 +31,7 @@ RowLayout {
         color: "#0f3460"
 
         Rectangle {
-            width: parent.width * (parent.parent.value / 10)
+            width: parent.width * (parent.parent.value / root.maxValue)
             height: parent.height
             radius: 4
             color: "#e94560"
@@ -40,7 +42,7 @@ RowLayout {
     SpinBox {
         value: parent.value
         from: 1
-        to: 20
+        to: root.maxValue
         editable: true
         Material.accent: Material.Purple
         Material.foreground: "white"

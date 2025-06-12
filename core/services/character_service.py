@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from typing import Optional
-from core.models.character import Character, Equipment, Skill, Cyberware
+from core.models.character import Character, CharacterStats, Equipment, Skill, Cyberware
 
 class CharacterService:
     def __init__(self, save_path: Path = Path("data/characters")):
@@ -39,14 +39,14 @@ class CharacterService:
         """Создает персонажа с настройками по умолчанию"""
         return Character.generate_default()
     
-    def update_skill(self, character: Character, skill_name: str, level: int):
+    def update_skill(self, character: Character, skill_name: str, level: int, category: Optional[str] = None):
         """Обновляет конкретный навык"""
         existing_skill = next(
             (s for s in character.skills if s.name == skill_name), None)
         if existing_skill:
             existing_skill.level = level
         else:
-            character.skills.append(Skill(name=skill_name, level=level))
+            character.skills.append(Skill(name=skill_name, level=level, category=category))
 
     def add_cyberware(self, character: Character, cyberware: Cyberware):
         """Добавляет кибернетику"""

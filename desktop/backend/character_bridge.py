@@ -1,24 +1,25 @@
 from PySide6.QtCore import QObject, Property
 from desktop.backend.armor_bridge import ArmorBridge
 from desktop.backend.info_bridge import InfoBridge
+from desktop.backend.skills_bridge import SkillsBridge
 from desktop.backend.stats_bridge import StatsBridge
 from core.services.character_service import CharacterService
 from desktop.backend.status_bridge import StatusBridge
 from desktop.controllers.character_controller import CharacterController
-from desktop.views.character import CharacterView
 
 
 class CharacterBridge(QObject):
-    def __init__(self, view: CharacterView, character_service: CharacterService):
+    def __init__(self, character_service: CharacterService):
         super().__init__()
 
-        self.controller = CharacterController(view=view, character_service=character_service)
+        self.controller = CharacterController( character_service=character_service)
 
         
         self._info_bridge = InfoBridge(character=self.controller.character)
         self._stats_bridge = StatsBridge(stats=self.controller.character.stats)
         self._status_bridge = StatusBridge(character=self.controller.character)
         self._armor_bridge = ArmorBridge(armor=self.controller.character.armor)
+        self._skills_model = SkillsBridge(self.controller.character.skills)
 
     def get_info(self):
         return self._info_bridge
@@ -51,3 +52,11 @@ class CharacterBridge(QObject):
         pass
 
     armor = Property(QObject, get_armor, set_armor, None, "")
+
+
+    def get_skills_model(self):
+        return self._skills_model
+
+    skillsModel = Property(QObject, get_skills_model, constant=True) # type: ignore
+
+    
