@@ -1,6 +1,5 @@
 from pathlib import Path
 
-from PySide6.QtWidgets import QFileDialog
 from core.models.character import Character, Cyberware, Equipment, Skill
 from core.services.character_service import CharacterService
 
