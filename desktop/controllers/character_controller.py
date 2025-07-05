@@ -2,6 +2,7 @@ from pathlib import Path
 
 from core.models.character import Character, Cyberware, Equipment, Skill
 from core.services.character_service import CharacterService
+from core.usecases.character_logic import CharacterUseCase
 
 
 class CharacterController:
@@ -11,7 +12,7 @@ class CharacterController:
         self.default_save_path = Path("data/characters")
         self.default_save_path.mkdir(parents=True, exist_ok=True)
 
-
+        self.usecase = CharacterUseCase()
         self.character: Character = self._load_default_character()
 
 
@@ -34,15 +35,22 @@ class CharacterController:
         self.character = self.service.create_default_character()
 
     def add_cyberware(self, cyberware: Cyberware):
-        self.character.cyberware.append(cyberware)
-        self.character.apply_cyberware_costs()
+        self.usecase.add_cyberware(self.character,cyberware)
 
     def remove_cyberware(self, name: str):
-        self.character.cyberware = [c for c in self.character.cyberware if c.name != name]
-        self.character.apply_cyberware_costs()
+        self.usecase.remove_cyberware(self.character,name)
 
     def add_equipment(self, equipment: Equipment):
-        self.character.equipment.append(equipment)
+        self.usecase.add_equipment(self.character,equipment)
 
     def remove_equipment(self, name: str):
-        self.character.equipment = [e for e in self.character.equipment if e.name != name]
+        self.usecase.remove_equipment(self.character,name)
+
+    def add_skill(self, name: str, level: int, category: str = "", description: str = ""):
+        self.usecase.add_skill(self.character, name, level, category, description)
+
+    def remove_skill(self, name: str):
+        self.usecase.remove_skill(self.character, name)
+
+    def update_skill(self, index: int, name: str, level: int, category: str = "", description: str = ""):
+        self.usecase.update_skill_by_index(self.character, index, name, level, category, description)

@@ -19,7 +19,7 @@ class CharacterBridge(QObject):
         self._stats_bridge = StatsBridge(stats=self.controller.character.stats)
         self._status_bridge = StatusBridge(character=self.controller.character)
         self._armor_bridge = ArmorBridge(armor=self.controller.character.armor)
-        self._skills_model = SkillsBridge(self.controller.character.skills)
+        self._skills_model = SkillsBridge(self.controller)
 
     def get_info(self):
         return self._info_bridge
