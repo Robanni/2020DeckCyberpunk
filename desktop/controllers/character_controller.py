@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 
 from core.models.character import Character, Cyberware, Equipment, Skill
 from core.services.character_service import CharacterService
@@ -14,7 +15,6 @@ class CharacterController:
 
         self.usecase = CharacterUseCase()
         self.character: Character = self._load_default_character()
-
 
     def _load_default_character(self):
         default = self.service.get_character("Johnny Silverhand")
@@ -35,22 +35,52 @@ class CharacterController:
         self.character = self.service.create_default_character()
 
     def add_cyberware(self, cyberware: Cyberware):
-        self.usecase.add_cyberware(self.character,cyberware)
+        self.usecase.add_cyberware(self.character, cyberware)
 
     def remove_cyberware(self, name: str):
-        self.usecase.remove_cyberware(self.character,name)
+        self.usecase.remove_cyberware(self.character, name)
 
     def add_equipment(self, equipment: Equipment):
-        self.usecase.add_equipment(self.character,equipment)
+        self.usecase.add_equipment(self.character, equipment)
 
     def remove_equipment(self, name: str):
-        self.usecase.remove_equipment(self.character,name)
+        self.usecase.remove_equipment(self.character, name)
 
-    def add_skill(self, name: str, level: int, category: str = "", description: str = ""):
-        self.usecase.add_skill(self.character, name, level, category, description)
+    def add_skill(
+        self,
+        stat: str,
+        group_title: str,
+        name: str,
+        level: int,
+        description: str = "",
+        skill_id: Optional[int] = None,
+    ):
+        self.usecase.add_skill(
+            self.character,
+            stat=stat,
+            group_title=group_title,
+            name=name,
+            level=level,
+            skill_id=skill_id,
+            description=description,
+        )
 
-    def remove_skill(self, name: str):
-        self.usecase.remove_skill(self.character, name)
+    def remove_skill(self, stat: str, name: str):
+        self.usecase.remove_skill(character=self.character, stat=stat, name=name)
 
-    def update_skill(self, index: int, name: str, level: int, category: str = "", description: str = ""):
-        self.usecase.update_skill_by_index(self.character, index, name, level, category, description)
+    def update_skill(
+        self,
+        stat: str,
+        skill_id: int,
+        title: str,
+        level: int,
+        description: str ="",
+    ):
+        self.usecase.update_skill_by_id(
+            character=self.character,
+            stat=stat,  
+            skill_id=skill_id,
+            title=title,
+            level=level,
+            description=description
+        )

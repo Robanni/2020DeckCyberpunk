@@ -6,21 +6,27 @@ import "../../shared"
 Rectangle {
     id: root
 
-    width: parent.width
+    width: parent.width 
+
     implicitHeight: mainLayout.implicitHeight + 2 * Theme.spacingMedium
     color: Theme.surface
     border.color: Theme.border
     radius: Theme.borderRadius
     border.width: 1
 
-    property int index
-    property string name
-    property string category
-    property string description
-    property int level
+    required property int skillId
+    required property string name
+    required property string category
+    required property string description
+    required property int level
 
-    signal removeRequested(int index)
+    signal removeRequested(int skillId)
     signal edited(int index, string name, string category, string description, int level)
+
+    property string editedName: root.name
+    property string editedCategory: root.category
+    property string editedDescription: root.description
+    property int editedLevel: root.level
 
     ColumnLayout {
         id: mainLayout
@@ -36,12 +42,14 @@ Rectangle {
             // Название (занимает оставшееся пространство)
             TextField {
                 id: nameField
-                text: root.name
+                text: root.editedName
                 placeholderText: "Название"
                 Layout.fillWidth: true
                 Layout.preferredHeight: 32
                 font.pixelSize: Theme.fontSizeNormal
-                onEditingFinished: root.edited(root.index, text, root.category, root.description, root.level)
+                onTextChanged: root.editedName = text
+                onEditingFinished: root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
+
                 background: Rectangle {
                     color: Theme.background
                     radius: 4
@@ -52,12 +60,13 @@ Rectangle {
             // Категория (фиксированная ширина)
             TextField {
                 id: categoryField
-                text: root.category
+                text: root.editedCategory
                 placeholderText: "Категория"
                 Layout.preferredWidth: 120
                 Layout.preferredHeight: 32
                 font.pixelSize: Theme.fontSizeNormal
-                onEditingFinished: root.edited(root.index, root.name, text, root.description, root.level)
+                onTextChanged: root.editedCategory = text
+                onEditingFinished: root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
                 background: Rectangle {
                     color: Theme.background
                     radius: 4
@@ -67,13 +76,14 @@ Rectangle {
 
             SpinBox {
                 id: levelSpinBox
-                Component.onCompleted: value = root.level
+                Component.onCompleted: root.editedLevel = root.level
                 from: 0
                 to: 15
                 Layout.preferredWidth: 80
                 Layout.preferredHeight: 32
                 onValueModified: {
-                    root.edited(root.index, nameField.text, categoryField.text, descriptionArea.text, value);
+                    root.editedLevel = value
+                    root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
                 }
 
                 contentItem: Text {
@@ -98,7 +108,7 @@ Rectangle {
                 Layout.preferredWidth: 32
                 Layout.preferredHeight: 32
                 font.pixelSize: Theme.fontSizeNormal
-                onClicked: root.removeRequested(root.index)
+                onClicked: root.removeRequested(root.skillId)
 
                 background: Rectangle {
                     color: Theme.danger
@@ -117,20 +127,15 @@ Rectangle {
 
         TextArea {
             id: descriptionArea
-            text: root.description
+            text: root.editedDescription
             placeholderText: "Описание навыка..."
             wrapMode: TextArea.Wrap
             Layout.fillWidth: true
             Layout.preferredHeight: 60
             font.pixelSize: Theme.fontSizeNormal
             verticalAlignment: Text.AlignVCenter
-            onTextChanged: {
-                if (activeFocus) {
-                    root.description = text;
-                }
-            }
-
-            onEditingFinished: root.edited(root.index, root.name, root.category, text, root.level)
+            onTextChanged: root.editedDescription = text
+            onEditingFinished: root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
 
             background: Rectangle {
                 color: Theme.background

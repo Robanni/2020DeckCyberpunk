@@ -1,18 +1,16 @@
+``` json
 {
   "name": "optimus prime",
   "handle": "Samurai",
   "role": "Rockerboy",
-  "stats": {
-    "INT": 7,
-    "REF": 9,
-    "TECH": 7,
-    "COOL": 10,
-    "ATTR": 3,
-    "LUCK": 6,
-    "MA": 8,
-    "BODY": 7,
-    "EMP": 4
-  },
+  "stats": [
+  {
+    "title": "Интелект",
+    "stat": "INT",
+    "id": 1,
+    "value": 0
+  }
+],
   "special_ability": "Charismatic Leadership",
   "health": {
     "current_damage": 15
@@ -32,21 +30,8 @@
       "items": [
         {
           "title": "Streetwise",
-          "id": 0,
-          "level": 5,
-          "description": "Knowledge of street culture and urban survival"
-        },
-        {
-          "title": "Education",
           "id": 1,
-          "level": 4,
-          "description": "Formal education and knowledge of various subjects"
-        },
-        {
-          "title": "Human Perception",
-          "id": 2,
-          "level": 6,
-          "description": "Ability to read people and understand their motives"
+          "level": 5
         }
       ]
     }
@@ -107,3 +92,4 @@
   "money": 2500,
   "notes": "Former frontman of SAMURAI. Lost left arm in 2023 Arasaka Tower raid. Hates corporations with a passion."
 }
+```

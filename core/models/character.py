@@ -24,16 +24,23 @@ class Health(BaseModel):
     current_damage: int = 0
 
 class Skill(BaseModel):
-    name: str
-    category: Optional[str] = ""
-    description: Optional[str] = ""
+    title: str
+    id: int
     level: int = Field(ge=0, le=15)
+    description: Optional[str] = ""
+
+class SkillGroup(BaseModel):
+    title: str           
+    stat: str           
+    items: List[Skill] = [] 
 
 
 class Equipment(BaseModel):
     name: str
-    type: str
     description: Optional[str] = ""
+    weight: Optional[float] = 0.0
+    price: Optional[float] = 0.0
+    amount: Optional[int] = 1
 
 
 class Cyberware(BaseModel):
@@ -68,7 +75,7 @@ class Character(BaseModel):
     health: Health  
     armor: Armor
 
-    skills: List[Skill] = []
+    skills: List[SkillGroup] = [] 
     equipment: List[Equipment] = []
     cyberware: List[Cyberware] = []
     lifepath: Lifepath

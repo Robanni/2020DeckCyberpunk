@@ -1,24 +1,64 @@
-from core.models.character import Character, Skill, Equipment, Cyberware
+from typing import Optional
+from core.models.character import Character, Skill, Equipment, Cyberware, SkillGroup
 
 
 class CharacterUseCase:
-    def add_skill(self, character: Character, name: str, level: int, category: str = "", description: str = ""):
-        existing = next((s for s in character.skills if s.name == name), None)
+    def add_skill(
+        self,
+        character: Character,
+        stat: str,
+        group_title: str,
+        name: str,
+        level: int,
+        skill_id: Optional[int] = None,
+        description: str = "",
+    ):
+        """Добавляет или обновляет навык в группе по стату"""
+        group = next((g for g in character.skills if g.stat == stat), None)
+
+        if not group:
+            group = SkillGroup(title=group_title, stat=stat)
+            character.skills.append(group)
+
+        existing = next((s for s in group.items if s.title == name), None)
+
         if existing:
-            # Обновление существующего навыка
             existing.level = level
-            existing.category = category
             existing.description = description
         else:
-            character.skills.append(Skill(name=name, level=level, category=category, description=description))
+            if skill_id is None:
+                max_id = max((s.id for s in group.items), default=-1)
+                skill_id = max_id + 1
 
-    def remove_skill(self, character: Character, skill_name: str):
-        character.skills = [s for s in character.skills if s.name != skill_name]
+            group.items.append(
+                Skill(title=name, id=skill_id, level=level, description=description)
+            )
 
-    def update_skill_by_index(self, character: Character, index: int, name: str, level: int, category: str, description: str):
-        if 0 <= index < len(character.skills):
-            character.skills[index] = Skill(name=name, level=level, category=category, description=description)
+    def remove_skill(self, character: Character, stat: str, name: str):
+        """Удаляет навык из группы по стату"""
+        for group in character.skills:
+            if group.stat == stat:
+                group.items = [s for s in group.items if s.title != name]
+                break
 
+    def update_skill_by_id(
+        self,
+        character: Character,
+        stat: str,
+        skill_id: int,
+        title: str,
+        level: int,
+        description: str,
+    ):
+        """Обновляет навык по ID в указанной группе"""
+        for group in character.skills:
+            if group.stat == stat:
+                for skill in group.items:
+                    if skill.id == skill_id:
+                        skill.title = title
+                        skill.level = level
+                        skill.description = description
+                        return
 
     def add_cyberware(self, character: Character, cyberware: Cyberware):
         character.cyberware.append(cyberware)

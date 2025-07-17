@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
@@ -11,7 +12,7 @@ Item {
 
     property var skillsModel: characterBridge.skillsModel
     signal addSkillRequested
-    signal removeSkillRequested(int index)
+    signal removeRequested(int skillId)
     signal skillChanged(int index, string name, string category, string description, int level)
 
     CyberGridBackground {
@@ -61,16 +62,11 @@ Item {
                         clip: true
 
                         delegate: SkillItem {
-                            index: model.index
-                            name: model.name
-                            category: model.category
-                            description: model.description
-                            level: model.level
-                            onRemoveRequested: function (index) {
-                                root.removeSkillRequested(index);
+                            onRemoveRequested: function (skillId) {
+                                root.removeRequested(skillId);
                             }
-                            onEdited: function (editedIndex, editedName, editedCategory, editedDescription, editedLevel) {
-                                root.skillChanged(editedIndex, editedName, editedCategory, editedDescription, editedLevel);
+                            onEdited: function (skillId, name, category, description, level) {
+                                root.skillChanged(skillId, name, category, description, level);
                             }
                         }
                     }
@@ -155,13 +151,13 @@ Item {
     onAddSkillRequested: {
         addSkillDialog.visible = true;
     }
-    onRemoveSkillRequested: function (index) {
-        console.log(`Remove skill ${index}:`)
-        root.skillsModel.removeSkill(index);
+    onRemoveRequested: function (skillId) {
+        console.log(`Remove skill ${skillId}:`);
+        root.skillsModel.removeSkill(skillId);
     }
 
-    onSkillChanged: function (index, name, category, description, level) {
-            console.log(`Updating skill ${index}:`, name, level)
-        root.skillsModel.updateSkill(index, name, category, description, level);
+    onSkillChanged: function (skillId, title, category, description, level) {
+        console.log(`Skill updated [ID: ${skillId}] Name: "${title}", Category: "${category}", Level: ${level}, Description: "${description}"`);
+        root.skillsModel.updateSkill(skillId, title, category, description, level);
     }
 }
