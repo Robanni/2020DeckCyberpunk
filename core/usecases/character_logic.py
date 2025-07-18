@@ -74,7 +74,7 @@ class CharacterUseCase:
         index: int,
         name: str,
         description: str,
-        humanity_cost: int
+        humanity_cost: int,
     ):
         """Обновляет киберимплант по индексу"""
         if 0 <= index < len(character.cyberware):
@@ -88,3 +88,13 @@ class CharacterUseCase:
 
     def remove_equipment(self, character: Character, name: str):
         character.equipment = [e for e in character.equipment if e.name != name]
+
+    def update_equipment_by_index(
+        self,
+        character: Character,
+        index: int,
+        equipment: Equipment,  
+    ):
+        """Обновляет снаряжение по индексу"""
+        if 0 <= index < len(character.equipment):
+            character.equipment[index] = equipment

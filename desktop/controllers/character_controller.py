@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Optional
 
-from core.models.character import Character, Cyberware, Equipment, Skill
+from core.models.character import Character, Cyberware, Equipment
 from core.services.character_service import CharacterService
 from core.usecases.character_logic import CharacterUseCase
 
@@ -51,12 +51,6 @@ class CharacterController:
             humanity_cost=humanity_cost,
         )
 
-    def add_equipment(self, equipment: Equipment):
-        self.usecase.add_equipment(self.character, equipment)
-
-    def remove_equipment(self, name: str):
-        self.usecase.remove_equipment(self.character, name)
-
     def add_skill(
         self,
         stat: str,
@@ -95,3 +89,12 @@ class CharacterController:
             level=level,
             description=description,
         )
+
+    def add_equipment(self, equipment: Equipment):
+        self.usecase.add_equipment(self.character, equipment)
+
+    def remove_equipment(self, name: str):
+        self.usecase.remove_equipment(self.character, name)
+
+    def update_equipment(self, index: int, equipment: Equipment):
+        self.usecase.update_equipment_by_index(self.character, index, equipment)

@@ -1,6 +1,7 @@
 from PySide6.QtCore import QObject, Property
 from desktop.backend.armor_bridge import ArmorBridge
 from desktop.backend.cyberware_bridge import CyberwareBridge
+from desktop.backend.equipment_bridge import EquipmentBridge
 from desktop.backend.info_bridge import InfoBridge
 from desktop.backend.skills_bridge import SkillsBridge
 from desktop.backend.stats_bridge import StatsBridge
@@ -22,6 +23,7 @@ class CharacterBridge(QObject):
         self._armor_bridge = ArmorBridge(armor=self.controller.character.armor)
         self._skills_model = SkillsBridge(self.controller)
         self._cyberware_bridge = CyberwareBridge(self.controller)
+        self._equipment_bridge = EquipmentBridge(self.controller)
 
     def get_info(self):
         return self._info_bridge
@@ -65,5 +67,10 @@ class CharacterBridge(QObject):
         return self._cyberware_bridge
     
     cyberwareModel = Property(QObject, get_cyberware_bridge, constant=True) 
+
+    def get_equipment_bridge(self):
+        return self._equipment_bridge
+
+    equipmentModel = Property(QObject, get_equipment_bridge, constant=True)
 
     
