@@ -11,7 +11,7 @@
     "LUCK": 6,
     "MA": 8,
     "BODY": 7,
-    "EMP": 4
+    "EMP": 8
   },
   "special_ability": "Charismatic Leadership",
   "health": {
@@ -47,6 +47,24 @@
           "id": 2,
           "level": 6,
           "description": "Ability to read people and understand their motives"
+        },
+        {
+          "title": "Hide/Evade",
+          "id": 3,
+          "level": 5,
+          "description": "Ability to hide and evade detection"
+        },
+        {
+          "title": "Fast Talk",
+          "id": 4,
+          "level": 4,
+          "description": "Ability to talk quickly and convincingly"
+        },
+        {
+          "title": "Resist Torture/Drugs",
+          "id": 5,
+          "level": 6,
+          "description": "Ability to resist physical and psychological torture"
         }
       ]
     }
@@ -90,6 +108,7 @@
       "humanity_cost": 5,
       "description": "Vocal cord enhancement for performances"
     }
+    
   ],
   "lifepath": {
     "origin": "Military Brat",

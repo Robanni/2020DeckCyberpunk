@@ -68,6 +68,21 @@ class CharacterUseCase:
         character.cyberware = [c for c in character.cyberware if c.name != implant_name]
         character.apply_cyberware_costs()
 
+    def update_cyberware_by_index(
+        self,
+        character: Character,
+        index: int,
+        name: str,
+        description: str,
+        humanity_cost: int
+    ):
+        """Обновляет киберимплант по индексу"""
+        if 0 <= index < len(character.cyberware):
+            character.cyberware[index].name = name
+            character.cyberware[index].description = description
+            character.cyberware[index].humanity_cost = humanity_cost
+            character.apply_cyberware_costs()
+
     def add_equipment(self, character: Character, equipment: Equipment):
         character.equipment.append(equipment)
 

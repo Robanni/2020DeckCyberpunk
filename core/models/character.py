@@ -87,7 +87,7 @@ class Character(BaseModel):
 
     def apply_cyberware_costs(self) -> None:
         self.humanity = max(
-            0, 100 - sum(c.humanity_cost for c in self.cyberware))
+            0, self.stats.EMP * 10 - sum(c.humanity_cost for c in self.cyberware))
     
     @classmethod
     def generate_default(cls) -> 'Character':

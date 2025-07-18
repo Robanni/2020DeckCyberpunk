@@ -7,26 +7,34 @@ Rectangle {
     id: root
 
     width: parent.width 
-
     implicitHeight: mainLayout.implicitHeight + 2 * Theme.spacingMedium
     color: Theme.surface
     border.color: Theme.border
     radius: Theme.borderRadius
     border.width: 1
 
-    required property int skillId
+
+    required property int index     
+    required property int skillId   
     required property string name
     required property string category
     required property string description
     required property int level
 
     signal removeRequested(int skillId)
-    signal edited(int index, string name, string category, string description, int level)
+    signal edited(int skillId, string name, string category, string description, int level)
 
-    property string editedName: root.name
-    property string editedCategory: root.category
-    property string editedDescription: root.description
-    property int editedLevel: root.level
+    // Локальные свойства для редактирования
+    property string editedName: name
+    property string editedCategory: category
+    property string editedDescription: description
+    property int editedLevel: level
+
+    // Синхронизация при изменении внешних свойств
+    onNameChanged: editedName = name
+    onCategoryChanged: editedCategory = category
+    onDescriptionChanged: editedDescription = description
+    onLevelChanged: editedLevel = level
 
     ColumnLayout {
         id: mainLayout
@@ -34,12 +42,10 @@ Rectangle {
         anchors.margins: Theme.spacingMedium
         spacing: Theme.spacingSmall
 
-        // Первая строка - основные поля
         RowLayout {
             spacing: Theme.spacingSmall
             Layout.fillWidth: true
 
-            // Название (занимает оставшееся пространство)
             TextField {
                 id: nameField
                 text: root.editedName
@@ -47,17 +53,22 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 32
                 font.pixelSize: Theme.fontSizeNormal
-                onTextChanged: root.editedName = text
-                onEditingFinished: root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
-
+                
                 background: Rectangle {
                     color: Theme.background
                     radius: 4
                     border.color: Theme.border
                 }
+                
+                onEditingFinished: {
+                    if (root.editedName !== text) {
+                        root.editedName = text
+                        root.edited(root.skillId, root.editedName, root.editedCategory, 
+                                   root.editedDescription, root.editedLevel)
+                    }
+                }
             }
 
-            // Категория (фиксированная ширина)
             TextField {
                 id: categoryField
                 text: root.editedCategory
@@ -65,27 +76,30 @@ Rectangle {
                 Layout.preferredWidth: 120
                 Layout.preferredHeight: 32
                 font.pixelSize: Theme.fontSizeNormal
-                onTextChanged: root.editedCategory = text
-                onEditingFinished: root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
+                
                 background: Rectangle {
                     color: Theme.background
                     radius: 4
                     border.color: Theme.border
                 }
+                
+                onEditingFinished: {
+                    if (root.editedCategory !== text) {
+                        root.editedCategory = text
+                        root.edited(root.skillId, root.editedName, root.editedCategory, 
+                                   root.editedDescription, root.editedLevel)
+                    }
+                }
             }
 
             SpinBox {
                 id: levelSpinBox
-                Component.onCompleted: root.editedLevel = root.level
                 from: 0
                 to: 15
+                value: root.editedLevel
                 Layout.preferredWidth: 80
                 Layout.preferredHeight: 32
-                onValueModified: {
-                    root.editedLevel = value
-                    root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
-                }
-
+                
                 contentItem: Text {
                     text: levelSpinBox.value
                     color: Theme.text
@@ -99,17 +113,23 @@ Rectangle {
                     radius: 4
                     border.color: Theme.border
                 }
+                
+                onValueModified: {
+                    if (root.editedLevel !== value) {
+                        root.editedLevel = value
+                        root.edited(root.skillId, root.editedName, root.editedCategory, 
+                                  root.editedDescription, root.editedLevel)
+                    }
+                }
             }
 
-            // Кнопка удаления
             Button {
                 id: deleteButton
                 text: "✕"
                 Layout.preferredWidth: 32
                 Layout.preferredHeight: 32
                 font.pixelSize: Theme.fontSizeNormal
-                onClicked: root.removeRequested(root.skillId)
-
+                
                 background: Rectangle {
                     color: Theme.danger
                     radius: 4
@@ -122,6 +142,8 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter
                     font: deleteButton.font
                 }
+                
+                onClicked: root.removeRequested(root.skillId)
             }
         }
 
@@ -134,13 +156,19 @@ Rectangle {
             Layout.preferredHeight: 60
             font.pixelSize: Theme.fontSizeNormal
             verticalAlignment: Text.AlignVCenter
-            onTextChanged: root.editedDescription = text
-            onEditingFinished: root.edited(root.skillId, root.editedName, root.editedCategory, root.editedDescription, root.editedLevel)
-
+            
             background: Rectangle {
                 color: Theme.background
                 border.color: Theme.border
                 radius: 4
+            }
+            
+            onEditingFinished: {
+                if (root.editedDescription !== text) {
+                    root.editedDescription = text
+                    root.edited(root.skillId, root.editedName, root.editedCategory, 
+                               root.editedDescription, root.editedLevel)
+                }
             }
         }
     }
