@@ -18,7 +18,7 @@ class CharacterStats(BaseModel):
     
     @classmethod
     def generate_default(cls) -> 'CharacterStats':
-        return cls(INT=5, REF=5, TECH=5, COOL=5, ATTR=5, LUCK=5, MA=5, BODY=5, EMP=5)
+        return cls(**{k: 5 for k in cls.__annotations__})
 
 class Health(BaseModel):
     current_damage: int = 0
@@ -106,45 +106,47 @@ class Armor(BaseModel):
     right_leg: int = 0  
 
 
+
 class Character(BaseModel):
     name: str
-    handle: Optional[str] = ""  
-    role: str                   
+    handle: Optional[str] = ""
+    role: str
     stats: CharacterStats
     special_ability: str
-    health: Health  
+    health: Health
     armor: Armor
-
-    skills: List[SkillGroup] = [] 
+    skills: List[SkillGroup] = []
     equipment: List[Equipment] = []
     cyberware: List[Cyberware] = []
     lifepath: Lifepath
-
     humanity: int = 100
     reputation: int = 0
     money: int = 0
+    style: Optional[str] = ""
     notes: Optional[str] = ""
 
     def apply_cyberware_costs(self) -> None:
         self.humanity = max(
-            0, self.stats.EMP * 10 - sum(c.humanity_cost for c in self.cyberware))
-    
+            0, self.stats.EMP * 10 - sum(c.humanity_cost for c in self.cyberware)
+        )
+
     @classmethod
     def generate_default(cls) -> 'Character':
-        """Создаёт персонажа с настройками по умолчанию"""
-        return Character(
+        return cls(
             name="Новый персонаж",
             role="Solo",
-            stats=CharacterStats(**{stat: 5 for stat in CharacterStats.model_fields}),
-            special_ability = "",
-            health=Health(current_damage=0),
+            stats=CharacterStats.generate_default(),
+            special_ability="",
+            health=Health(),
             armor=Armor(),
-            lifepath=Lifepath,
-            skills=[],
-            equipment=[],
-            cyberware=[],
-            humanity=100,
-            reputation=0,
-            money=0,
-            notes=""
+            lifepath=Lifepath(
+                origin="Unknown",
+                motivation=Motivation(
+                    personality_traits="",
+                    person_you_value_most="",
+                    what_do_you_value_most="",
+                    how_do_you_feel_about_most_people="",
+                    your_most_valued_possession=""
+                )
+            ),
         )
