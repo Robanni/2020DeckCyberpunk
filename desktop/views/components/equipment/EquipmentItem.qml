@@ -65,7 +65,7 @@ Rectangle {
                 onEditingFinished: {
                     if (root.editingName !== text) {
                         root.editingName = text
-                        root.edited(index, text, root.editingDescription, 
+                        root.edited(root.index, text, root.editingDescription, 
                                     root.editingWeight, root.editingPrice, root.editingAmount)
                     }
                 }
@@ -92,7 +92,7 @@ Rectangle {
                     font: deleteButton.font
                 }
                 
-                onClicked: root.removeRequested(index)
+                onClicked: root.removeRequested(root.index)
             }
         }
 
@@ -117,7 +117,7 @@ Rectangle {
             onEditingFinished: {
                 if (root.editingDescription !== text) {
                     root.editingDescription = text
-                    root.edited(index, root.editingName, text, 
+                    root.edited(root.index, root.editingName, text, 
                                 root.editingWeight, root.editingPrice, root.editingAmount)
                 }
             }
@@ -163,7 +163,7 @@ Rectangle {
                 onValueModified: {
                     if (root.editingWeight !== realValue) {
                         root.editingWeight = realValue
-                        root.edited(index, root.editingName, root.editingDescription, 
+                        root.edited(root.index, root.editingName, root.editingDescription, 
                                     realValue, root.editingPrice, root.editingAmount)
                     }
                 }
@@ -192,7 +192,7 @@ Rectangle {
                 onValueModified: {
                     if (root.editingPrice !== value) {
                         root.editingPrice = value
-                        root.edited(index, root.editingName, root.editingDescription, 
+                        root.edited(root.index, root.editingName, root.editingDescription, 
                                     root.editingWeight, value, root.editingAmount)
                     }
                 }
@@ -221,7 +221,7 @@ Rectangle {
                 onValueModified: {
                     if (root.editingAmount !== value) {
                         root.editingAmount = value
-                        root.edited(index, root.editingName, root.editingDescription, 
+                        root.edited(root.index, root.editingName, root.editingDescription, 
                                     root.editingWeight, root.editingPrice, value)
                     }
                 }

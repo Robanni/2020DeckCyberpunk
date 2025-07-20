@@ -3,6 +3,7 @@ from desktop.backend.armor_bridge import ArmorBridge
 from desktop.backend.cyberware_bridge import CyberwareBridge
 from desktop.backend.equipment_bridge import EquipmentBridge
 from desktop.backend.info_bridge import InfoBridge
+from desktop.backend.lifepath_bridge.lifepath_bridge import LifepathBridge
 from desktop.backend.skills_bridge import SkillsBridge
 from desktop.backend.stats_bridge import StatsBridge
 from core.services.character_service import CharacterService
@@ -24,6 +25,7 @@ class CharacterBridge(QObject):
         self._skills_model = SkillsBridge(self.controller)
         self._cyberware_bridge = CyberwareBridge(self.controller)
         self._equipment_bridge = EquipmentBridge(self.controller)
+        self._lifepath_bridge = LifepathBridge(self.controller)
 
     def get_info(self):
         return self._info_bridge
@@ -72,5 +74,10 @@ class CharacterBridge(QObject):
         return self._equipment_bridge
 
     equipmentModel = Property(QObject, get_equipment_bridge, constant=True)
+
+    def get_lifepath_bridge(self):
+        return self._lifepath_bridge
+
+    lifepath = Property(QObject, get_lifepath_bridge, constant=True)
 
     

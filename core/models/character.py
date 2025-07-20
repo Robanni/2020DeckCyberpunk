@@ -3,15 +3,15 @@ from typing import List, Optional
 
 
 class CharacterStats(BaseModel):
-    INT: int = Field(ge=1, le=10)
-    REF: int = Field(ge=1, le=10)
-    TECH: int = Field(ge=1, le=10)
-    COOL: int = Field(ge=1, le=10)
-    ATTR: int = Field(ge=1, le=10)
-    LUCK: int = Field(ge=1, le=10)
-    MA: int = Field(ge=1, le=10)
-    BODY: int = Field(ge=1, le=10)
-    EMP: int = Field(ge=1, le=10)
+    INT: int = Field(ge=1, le=20)
+    REF: int = Field(ge=1, le=20)
+    TECH: int = Field(ge=1, le=20)
+    COOL: int = Field(ge=1, le=20)
+    ATTR: int = Field(ge=1, le=20)
+    LUCK: int = Field(ge=1, le=20)
+    MA: int = Field(ge=1, le=20)
+    BODY: int = Field(ge=1, le=20)
+    EMP: int = Field(ge=1, le=20)
 
     def average(self) -> float:
         return sum(self.dict().values()) / len(self.dict())
@@ -49,12 +49,52 @@ class Cyberware(BaseModel):
     description: Optional[str] = ""
 
 
+class Motivation(BaseModel):
+    personality_traits: str
+    person_you_value_most: str
+    what_do_you_value_most: str
+    how_do_you_feel_about_most_people: str
+    your_most_valued_possession: str
+
+
+class FamilyMember(BaseModel):
+    name: str
+    relationship: str
+    relationship_notes: Optional[str] = ""
+    age: int
+
+
+class Enemy(BaseModel):
+    name: str
+    info: str
+
+
+class Friend(BaseModel):
+    name: str
+    relationship_notes: Optional[str] = ""
+    info: str
+
+
+class Romance(BaseModel):
+    name: str
+    info: str
+
+
+class LifeEvent(BaseModel):
+    age: str
+    event: str
+
+
 class Lifepath(BaseModel):
+    ethnic_background: Optional[str] = ""
     origin: str
-    family: str
-    motivation: str
-    enemies: List[str] = []
-    romance: Optional[str] = ""
+    family_history: Optional[str] = ""
+    motivation: Motivation
+    family: List[FamilyMember] = []
+    enemies: List[Enemy] = []
+    friendship: List[Friend] = []
+    romance: Optional[Romance]
+    life_events: List[LifeEvent] = []
 
 
 class Armor(BaseModel):
@@ -99,13 +139,7 @@ class Character(BaseModel):
             special_ability = "",
             health=Health(current_damage=0),
             armor=Armor(),
-            lifepath=Lifepath(
-                origin="",
-                family="",
-                motivation="",
-                enemies=[],
-                romance=None
-            ),
+            lifepath=Lifepath,
             skills=[],
             equipment=[],
             cyberware=[],
