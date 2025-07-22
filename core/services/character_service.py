@@ -28,13 +28,18 @@ class CharacterService:
             return None
 
     def save_character(self, character: Character, file_path: Path):
-        """Сохраняет персонажа в указанный файл"""
         try:
-            with open(file_path, "w", encoding="utf-8") as f:
+            file_path.mkdir(parents=True, exist_ok=True)
+
+            save_path = file_path / f"{character.name}.json"
+
+            with open(save_path, "w", encoding="utf-8") as f:
                 json.dump(character.dict(), f, ensure_ascii=False, indent=2)
+
+            return True
         except Exception as e:
             print(f"Save error: {e}")
-            raise
+            return False
 
     def create_default_character(self) -> Character:
         """Создает персонажа с настройками по умолчанию"""

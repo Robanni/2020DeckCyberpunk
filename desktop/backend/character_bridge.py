@@ -14,6 +14,7 @@ from desktop.controllers.character_controller import CharacterController
 
 class CharacterBridge(QObject):
     operationCompleted = Signal(str)
+    characterSaved = Signal(bool)
 
     def __init__(self, character_service: CharacterService):
         super().__init__()
@@ -38,7 +39,7 @@ class CharacterBridge(QObject):
     @Slot(result=str)
     def saveCharacter(self):
         result = self.controller.save_character()
-        self.operationCompleted.emit(result)
+        self.characterSaved.emit(result)
         return result
 
     @Slot(str,result=str)

@@ -223,4 +223,59 @@ ApplicationWindow {
             }
         }
     }
+    Popup {
+        id: notification
+        x: parent.width / 2 - width / 2
+        y: 20
+        width: 300
+        height: 50
+        modal: false
+        focus: false
+        visible: false
+        closePolicy: Popup.CloseOnEscape
+
+        Rectangle {
+            anchors.fill: parent
+            radius: 8
+            color: "#444"
+            border.color: "#888"
+            Text {
+                id: notificationText
+                anchors.centerIn: parent
+                text: notification.text
+                color: "white"
+            }
+        }
+
+        property string text: ""
+        onVisibleChanged: {
+            if (visible) {
+                Qt.callLater(() => {
+                    notificationTimer.restart();
+                });
+            }
+        }
+
+        Timer {
+            id: notificationTimer
+            interval: 2500
+            repeat: false
+            onTriggered: notification.visible = false
+        }
+    }
+
+    Connections {
+        target: characterBridge
+        function onCharacterSaved(result) {
+            if (result) {
+                notification.text = "Персонаж успешно сохранен!";
+                notification.visible = true;
+                return;
+            } else {
+                notification.text = "Произошла ошибка при сохранении персонажа!";
+                notification.visible = true;
+                return;
+            }
+        }
+    }
 }

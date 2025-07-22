@@ -27,7 +27,7 @@ class CharacterController:
         self.character = character
 
     def save_character(self):
-        self.service.save_character(self.character, self.default_save_path)
+        return self.service.save_character(self.character, self.default_save_path)
 
     def load_character(self, file_path: str):
         file_path = Path(file_path)
