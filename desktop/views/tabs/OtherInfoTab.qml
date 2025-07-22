@@ -9,11 +9,11 @@ Item {
 
     ScrollView {
         anchors.fill: parent
-        contentWidth: parent.width - 2 * Theme.spacingMedium 
-        clip: true 
+        contentWidth: parent.width - 2 * Theme.spacingMedium
+        clip: true
 
         ColumnLayout {
-            width: parent.width - 2 * Theme.spacingMedium 
+            width: parent.width - 2 * Theme.spacingMedium
             spacing: Theme.spacingMedium
             anchors.margins: Theme.spacingMedium
 
@@ -25,8 +25,8 @@ Item {
             }
 
             TextArea {
-                text: otherBridge ? otherBridge.style : ""
-                onTextChanged: if (otherBridge) otherBridge.style = text
+                id: styleTextArea
+                onEditingFinished: otherBridge.style = text
                 wrapMode: TextArea.Wrap
                 Layout.fillWidth: true
                 Layout.preferredHeight: 100
@@ -36,7 +36,7 @@ Item {
                     border.color: Theme.border
                     radius: 4
                 }
-                leftPadding: 8 
+                leftPadding: 8
                 rightPadding: 8
                 topPadding: 8
                 bottomPadding: 8
@@ -50,8 +50,8 @@ Item {
             }
 
             TextArea {
-                text: otherBridge ? otherBridge.notes : ""
-                onTextChanged: if (otherBridge) otherBridge.notes = text
+                id: notesTextArea
+                onTextChanged: otherBridge.notes = text
                 wrapMode: TextArea.Wrap
                 Layout.fillWidth: true
                 Layout.preferredHeight: 200
@@ -61,12 +61,29 @@ Item {
                     border.color: Theme.border
                     radius: 4
                 }
-                
-                leftPadding: 8 
+
+                leftPadding: 8
                 rightPadding: 8
                 topPadding: 8
                 bottomPadding: 8
             }
         }
     }
+
+    function updateFieldsFromBridge() {
+        styleTextArea.text = otherBridge.style;
+        notesTextArea.text = otherBridge.notes;
+    }
+
+    Connections {
+        target: otherBridge
+        function onStyleChanged() {
+            root.updateFieldsFromBridge();
+        }
+        function onNotesChanged() {
+            root.updateFieldsFromBridge();
+        }
+    }
+
+    Component.onCompleted: updateFieldsFromBridge()
 }
