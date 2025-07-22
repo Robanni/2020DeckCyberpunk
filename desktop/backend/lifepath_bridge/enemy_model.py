@@ -15,6 +15,12 @@ class EnemyModel(QAbstractListModel):
         self.controller = controller
         self._enemies = self.controller.character.lifepath.enemies
 
+    def update(self):
+        self.beginResetModel()
+        self._enemies = self.controller.character.lifepath.enemies
+        self.endResetModel()
+        self.countChanged.emit()    
+
     def rowCount(self, parent=QModelIndex()):
         return len(self._enemies)
 

@@ -16,6 +16,9 @@ class CyberwareBridge(QAbstractListModel):
         self._cyberware: list[Cyberware] = []
         self.refresh()
 
+    def update(self):
+        self.refresh()
+
     def rowCount(self, parent=QModelIndex()):
         return len(self._cyberware)
 

@@ -132,21 +132,80 @@ class Character(BaseModel):
 
     @classmethod
     def generate_default(cls) -> 'Character':
+        # Создаем базовую мотивацию
+        motivation = Motivation(
+            personality_traits="",
+            person_you_value_most="",
+            what_do_you_value_most="",
+            how_do_you_feel_about_most_people="",
+            your_most_valued_possession=""
+        )
+        
+        # Создаем базовый жизненный путь
+        lifepath = Lifepath(
+            ethnic_background="",
+            origin="Street Kid",
+            family_history="",
+            motivation=motivation,
+            family=[],
+            enemies=[],
+            friendship=[],
+            romance=Romance(name="", info=""),
+            life_events=[]
+        )
+        
+        # Создаем базовые группы навыков
+        combat_skills = SkillGroup(
+            title="Боевые навыки",
+            stat="REF",
+            items=[
+                Skill(title="Рукопашный бой", id=0, level=0),
+                Skill(title="Стрелковое оружие", id=1, level=0)
+            ]
+        )
+        
+        social_skills = SkillGroup(
+            title="Социальные навыки",
+            stat="COOL",
+            items=[
+                Skill(title="Убеждение", id=2, level=0),
+                Skill(title="Лидерство", id=3, level=0)
+            ]
+        )
+        
+        # Создаем базовое снаряжение
+        basic_equipment = [
+            Equipment(
+                name="Одежда",
+                description="Повседневная одежда",
+                weight=1.0,
+                price=50
+            ),
+            Equipment(
+                name="Пистолет",
+                description="9mm пистолет",
+                weight=1.5,
+                price=100,
+                amount=1
+            )
+        ]
+        
+        # Собираем персонажа
         return cls(
             name="Новый персонаж",
+            handle="",
             role="Solo",
             stats=CharacterStats.generate_default(),
-            special_ability="",
+            special_ability="Combat Sense",
             health=Health(),
             armor=Armor(),
-            lifepath=Lifepath(
-                origin="Unknown",
-                motivation=Motivation(
-                    personality_traits="",
-                    person_you_value_most="",
-                    what_do_you_value_most="",
-                    how_do_you_feel_about_most_people="",
-                    your_most_valued_possession=""
-                )
-            ),
+            skills=[combat_skills, social_skills],
+            equipment=basic_equipment,
+            cyberware=[],
+            lifepath=lifepath,
+            humanity=100,
+            reputation=0,
+            money=500,
+            style="Базовый стиль",
+            notes="Новый персонаж"
         )

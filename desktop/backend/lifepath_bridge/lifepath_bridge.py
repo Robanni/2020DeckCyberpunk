@@ -24,6 +24,16 @@ class LifepathBridge(QObject):
         self._event_model = LifeEventModel(self.controller)
         self._romance_bridge = RomanceBridge(self.controller)
 
+    def update(self):
+        self.originChanged.emit()
+        self.ethnicBackgroundChanged.emit()
+        self.familyHistoryChanged.emit()
+        self._family_model.update()
+        self._enemy_model.update()
+        self._friend_model.update()
+        self._event_model.update()
+        self._romance_bridge.update()
+
     def get_origin(self):
         return self.controller.character.lifepath.origin
 

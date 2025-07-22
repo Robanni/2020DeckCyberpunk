@@ -16,6 +16,9 @@ class CharacterController:
         self.usecase = CharacterUseCase()
         self.character: Character = self._load_default_character()
 
+    def get_default_save_path(self):
+        return str(self.default_save_path.absolute())
+
     def _load_default_character(self):
         default = self.service.get_character("Johnny Silverhand")
         return default if default else self.service.create_default_character()
@@ -26,8 +29,9 @@ class CharacterController:
     def save_character(self):
         self.service.save_character(self.character, self.default_save_path)
 
-    def load_character(self):
-        loaded = self.service.load_character(self.default_save_path)
+    def load_character(self, file_path: str):
+        file_path = Path(file_path)
+        loaded = self.service.load_character(file_path)
         if loaded:
             self.character = loaded
 

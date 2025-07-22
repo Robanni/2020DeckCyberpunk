@@ -10,12 +10,25 @@ class EquipmentBridge(QAbstractListModel):
     PriceRole = Qt.UserRole + 4
     AmountRole = Qt.UserRole + 5
 
+    countChanged = Signal()
+
+
     def __init__(self, controller: CharacterController):
         super().__init__()
         self.controller = controller
         self._equipment: list[Equipment] = []
         self.refresh()
 
+    def update(self):
+        self.beginResetModel()
+        self._equipment = list(self.controller.character.equipment)
+        self.endResetModel()
+        self.countChanged.emit()
+
+    @Property(int, notify=countChanged)
+    def count(self):
+        return len(self._equipment)
+    
     def rowCount(self, parent=QModelIndex()):
         return len(self._equipment)
 
@@ -67,6 +80,7 @@ class EquipmentBridge(QAbstractListModel):
             name = self._equipment[index].name
             self.controller.remove_equipment(name)
             self.refresh()
+            
 
     @Slot(int, str, str, float, float, int)
     def updateEquipment(self, index: int, name: str, description: str, weight: float, price: float, amount: int):
@@ -87,3 +101,4 @@ class EquipmentBridge(QAbstractListModel):
         self.beginResetModel()
         self._equipment = list(self.controller.character.equipment)
         self.endResetModel()
+        self.countChanged.emit()

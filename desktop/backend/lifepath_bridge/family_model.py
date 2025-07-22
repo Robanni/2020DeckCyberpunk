@@ -17,6 +17,12 @@ class FamilyModel(QAbstractListModel):
         self.controller = controller
         self._family = self.controller.character.lifepath.family
 
+    def update(self):
+        self.beginResetModel()
+        self._family = self.controller.character.lifepath.family
+        self.endResetModel()
+        self.countChanged.emit()
+
     def rowCount(self, parent=QModelIndex()):
         return len(self._family)
     

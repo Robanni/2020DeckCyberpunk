@@ -12,6 +12,10 @@ class OtherBridge(QObject):
         self.controller = controller
         self._character: Character = controller.character
 
+    def update(self):
+        self.styleChanged.emit()
+        self.notesChanged.emit()
+
     def get_style(self):
         return self._character.style or ""
 

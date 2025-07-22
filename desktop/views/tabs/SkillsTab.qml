@@ -62,8 +62,8 @@ Item {
                         clip: true
 
                         delegate: SkillItem {
-                            onRemoveRequested: function (skillId) {
-                                root.removeRequested(skillId);
+                            onRemoveRequested: function (index) {
+                                root.removeRequested(index);
                             }
                             onEdited: function (skillId, name, category, description, level) {
                                 root.skillChanged(skillId, name, category, description, level);

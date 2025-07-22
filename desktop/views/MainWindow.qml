@@ -2,6 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.15
+import Qt.labs.platform 1.1
+import "shared"
 import "tabs"
 
 ApplicationWindow {
@@ -20,29 +22,27 @@ ApplicationWindow {
     // Проверяем готовность бэкенда
     function checkBackend() {
         if (typeof characterBridge !== 'undefined' && characterBridge) {
-            isBackendReady = true
-            loadData()
+            isBackendReady = true;
+            loadData();
         }
     }
 
     // Загружаем данные после готовности бэкенда
     function loadData() {
-        if (!isBackendReady) return
-        
+        if (!isBackendReady)
+            return;
+
         // Проверяем наличие всех необходимых данных
-        if (characterBridge.status && 
-            characterBridge.stats && 
-            characterBridge.info &&
-            characterBridge.armor) {
-            isDataLoaded = true
+        if (characterBridge.status && characterBridge.stats && characterBridge.info && characterBridge.armor) {
+            isDataLoaded = true;
         }
     }
 
     // Проверяем бэкенд при создании и периодически
     Component.onCompleted: {
-        checkBackend()
+        checkBackend();
         // Проверяем каждые 100мс на случай асинхронной загрузки
-        backendCheckTimer.start()
+        backendCheckTimer.start();
     }
 
     Timer {
@@ -51,9 +51,9 @@ ApplicationWindow {
         repeat: true
         onTriggered: {
             if (isReady) {
-                stop()
+                stop();
             } else {
-                checkBackend()
+                checkBackend();
             }
         }
     }
@@ -80,24 +80,105 @@ ApplicationWindow {
         anchors.topMargin: 60
         anchors.horizontalCenter: parent.horizontalCenter
         text: {
-            if (!isBackendReady) return "Загрузка бэкенда..."
-            if (!isDataLoaded) return "Загрузка данных персонажа..."
-            return "Запуск приложения..."
+            if (!isBackendReady)
+                return "Загрузка бэкенда...";
+            if (!isDataLoaded)
+                return "Загрузка данных персонажа...";
+            return "Запуск приложения...";
         }
         color: Material.color(Material.Purple)
         font.pixelSize: 16
         visible: !isReady
     }
 
+    FileDialog {
+        id: fileDialog
+        title: "Выберите файл"
+        folder: "file:///" + characterBridge.get_default_save_path()
+        nameFilters: ["JSON файлы (*.json)"]
+        onAccepted: {
+            var fileUrl = fileDialog.file;
+            var filePath = fileUrl.toString().replace("file:///", "");
+            console.log("Файл выбран:", filePath);
+            characterBridge.loadCharacter(filePath);
+        }
+    }
+
     // Главный компонент интерфейса (загружается только когда все готово)
     Component {
         id: mainComponent
-        
+
         ColumnLayout {
             anchors.fill: parent
             spacing: 0
 
-            // Стилизованная панель вкладок
+            // 🔘 Панель действий
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacingMedium
+
+                Button {
+                    text: "📂 Открыть файл"
+                    Layout.preferredHeight: Theme.controlHeightNormal
+                    Layout.preferredWidth: 160
+                    font.pixelSize: Theme.fontSizeNormal
+                    background: Rectangle {
+                        color: Theme.surface
+                        radius: Theme.borderRadius
+                        border.color: Theme.accent
+                        border.width: 1
+                    }
+                    contentItem: Text {
+                        text: "📂 Открыть файл"
+                        color: Theme.text
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    onClicked: fileDialog.open()
+                }
+                Button {
+                    text: "💾 Сохранить файл"
+                    Layout.preferredHeight: Theme.controlHeightNormal
+                    Layout.preferredWidth: 160
+                    font.pixelSize: Theme.fontSizeNormal
+                    background: Rectangle {
+                        color: Theme.surface
+                        radius: Theme.borderRadius
+                        border.color: Theme.accent
+                        border.width: 1
+                    }
+                    contentItem: Text {
+                        text: "💾 Сохранить файл"
+                        color: Theme.text
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    onClicked: characterBridge.saveCharacter()
+                }
+
+                Button {
+                    text: "🆕 Новый персонаж"
+                    Layout.preferredHeight: Theme.controlHeightNormal
+                    Layout.preferredWidth: 160
+                    font.pixelSize: Theme.fontSizeNormal
+                    background: Rectangle {
+                        color: Theme.surface
+                        radius: Theme.borderRadius
+                        border.color: Theme.textSecondary
+                        border.width: 1
+                    }
+                    contentItem: Text {
+                        text: "🆕 Новый персонаж"
+                        color: Theme.textSecondary
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    onClicked: {
+                        characterBridge.newCharacter();
+                    }
+                }
+            }
+            // Панель вкладок
             TabBar {
                 id: tabBar
                 Layout.fillWidth: true
@@ -107,7 +188,7 @@ ApplicationWindow {
 
                 Repeater {
                     model: ["🎭 Персонаж", "🛡️ Броня", "🔧 Навыки", "⚙️ Кибернетика", "🔫 Оборудование", "📝 Жизненный Путь", "📋 Прочее"]
-                    
+
                     TabButton {
                         text: modelData
                         padding: 12

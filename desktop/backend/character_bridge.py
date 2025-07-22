@@ -1,4 +1,4 @@
-from PySide6.QtCore import QObject, Property
+from PySide6.QtCore import QObject, Property, Signal, Slot
 from desktop.backend.armor_bridge import ArmorBridge
 from desktop.backend.cyberware_bridge import CyberwareBridge
 from desktop.backend.equipment_bridge import EquipmentBridge
@@ -13,21 +13,58 @@ from desktop.controllers.character_controller import CharacterController
 
 
 class CharacterBridge(QObject):
+    operationCompleted = Signal(str)
+
     def __init__(self, character_service: CharacterService):
         super().__init__()
 
-        self.controller = CharacterController( character_service=character_service)
+        self.controller = CharacterController(character_service=character_service)
 
-        
-        self._info_bridge = InfoBridge(character=self.controller.character)
-        self._stats_bridge = StatsBridge(stats=self.controller.character.stats)
-        self._status_bridge = StatusBridge(character=self.controller.character)
-        self._armor_bridge = ArmorBridge(armor=self.controller.character.armor)
+        self._info_bridge = InfoBridge(self.controller)
+        self._stats_bridge = StatsBridge(self.controller)
+        self._status_bridge = StatusBridge(self.controller)
+        self._armor_bridge = ArmorBridge(self.controller)
+
         self._skills_model = SkillsBridge(self.controller)
         self._cyberware_bridge = CyberwareBridge(self.controller)
         self._equipment_bridge = EquipmentBridge(self.controller)
         self._lifepath_bridge = LifepathBridge(self.controller)
         self._other_bridge = OtherBridge(self.controller)
+    
+    @Slot(result=str)
+    def get_default_save_path(self):
+        return self.controller.get_default_save_path()
+
+    @Slot(result=str)
+    def saveCharacter(self):
+        result = self.controller.save_character()
+        self.operationCompleted.emit(result)
+        return result
+
+    @Slot(str,result=str)
+    def loadCharacter(self, file_path: str):
+        result = self.controller.load_character(file_path)
+        self.operationCompleted.emit(result)
+        self._update_all_bridges()
+        return result
+
+    @Slot(result=str)
+    def newCharacter(self):
+        result = self.controller.new_character()
+        self.operationCompleted.emit(result)
+        self._update_all_bridges()
+        return result
+
+    def _update_all_bridges(self):
+        self._info_bridge.update()
+        self._stats_bridge.update()
+        self._status_bridge.update()
+        self._armor_bridge.update()
+        self._skills_model.update()
+        self._cyberware_bridge.update()
+        self._equipment_bridge.update()
+        self._lifepath_bridge.update()
+        self._other_bridge.update()
 
     def get_info(self):
         return self._info_bridge
@@ -61,7 +98,6 @@ class CharacterBridge(QObject):
 
     armor = Property(QObject, get_armor, set_armor, None, "")
 
-
     def get_skills_model(self):
         return self._skills_model
 
@@ -69,8 +105,8 @@ class CharacterBridge(QObject):
 
     def get_cyberware_bridge(self):
         return self._cyberware_bridge
-    
-    cyberwareModel = Property(QObject, get_cyberware_bridge, constant=True) 
+
+    cyberwareModel = Property(QObject, get_cyberware_bridge, constant=True)
 
     def get_equipment_bridge(self):
         return self._equipment_bridge
@@ -86,5 +122,3 @@ class CharacterBridge(QObject):
         return self._other_bridge
 
     other = Property(QObject, get_other, constant=True)
-
-    

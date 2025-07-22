@@ -18,6 +18,9 @@ class SkillsBridge(QAbstractListModel):
         self._flat_skills: list[tuple[str, Skill]] = [] 
         self.refresh()
 
+    def update(self):
+        self.refresh()
+
     def rowCount(self, parent=QModelIndex()):
         return len(self._flat_skills)
 

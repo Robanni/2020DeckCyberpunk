@@ -30,7 +30,7 @@ Item {
         // Панель информации о снаряжении
         Rectangle {
             Layout.fillWidth: true
-            height: 60
+            implicitHeight: 60
             color: Theme.surface
             border.color: Theme.border
             radius: Theme.borderRadius
@@ -46,7 +46,7 @@ Item {
                 }
                 
                 Label {
-                    text: equipmentModel.rowCount()
+                    text: root.equipmentModel? root.equipmentModel.count : 0
                     font.pixelSize: Theme.fontSizeLarge
                     font.bold: true
                     color: Theme.accent

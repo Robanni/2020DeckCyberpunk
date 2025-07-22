@@ -15,6 +15,12 @@ class LifeEventModel(QAbstractListModel):
         self.controller = controller
         self._events = self.controller.character.lifepath.life_events
 
+    def update(self):
+        self.beginResetModel()
+        self._events = self.controller.character.lifepath.life_events
+        self.endResetModel()
+        self.countChanged.emit()
+
     def rowCount(self, parent=QModelIndex()):
         return len(self._events)
     

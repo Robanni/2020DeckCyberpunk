@@ -13,6 +13,11 @@ class RomanceBridge(QObject):
         self.controller = controller
         self._romance = self.controller.character.lifepath.romance or Romance(name="", info="")
 
+    def update(self):
+        self._romance = self.controller.character.lifepath.romance
+        self.nameChanged.emit()
+        self.infoChanged.emit()
+
     def get_name(self):
         return self._romance.name
 

@@ -71,7 +71,35 @@ Item {
         console.log("Initialized blocksStatus:", JSON.stringify(result)); // Для отладки
     }
 
-    Component.onCompleted: initStatus()
+    function updateFromBridge() {
+        initStatus();
+    }
+
+    function updateToBridge() {
+        if (!root.statusBridge)
+            return;
+
+        let totalDamage = 0;
+        for (let i = 0; i < root.blocksStatus.length; i++) {
+            for (let j = 0; j < root.blocksStatus[i].length; j++) {
+                if (root.blocksStatus[i][j]) {
+                    totalDamage++;
+                }
+            }
+        }
+
+        if (root.statusBridge.current_damage !== totalDamage) {
+            root.statusBridge.current_damage = totalDamage;
+        }
+    }
+
+    Component.onCompleted: {
+        initStatus();
+        if (root.statusBridge) {
+            root.statusBridge.healthChanged.connect(updateFromBridge);
+            root.blocksStatusChanged.connect(updateToBridge);
+        }
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -97,10 +125,7 @@ Item {
                     Layout.fillHeight: true
                     Layout.preferredHeight: healthBlock.implicitHeight + 25
                     color: "transparent"
-                    border {
-                        color: "yellow"
-                        width: 1
-                    }
+
                     radius: 4
 
                     HealthBlock {

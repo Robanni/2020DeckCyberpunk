@@ -16,6 +16,12 @@ class FriendModel(QAbstractListModel):
         self.controller = controller
         self._friends = self.controller.character.lifepath.friendship
 
+    def update(self):
+        self.beginResetModel()
+        self._friends = self.controller.character.lifepath.friendship
+        self.endResetModel()
+        self.countChanged.emit()
+
     def rowCount(self, parent=QModelIndex()):
         return len(self._friends)
 

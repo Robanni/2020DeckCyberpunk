@@ -1,5 +1,7 @@
 from PySide6.QtCore import QObject, Property, Signal
 from core.models.character import Armor
+from desktop.controllers.character_controller import CharacterController
+
 
 
 class ArmorBridge(QObject):
@@ -10,74 +12,69 @@ class ArmorBridge(QObject):
     leftLegChanged = Signal()
     rightLegChanged = Signal()
 
-    def __init__(self, armor: Armor):
+    def __init__(self, controller: CharacterController):
         super().__init__()
-        self._armor = armor
+        self._controller = controller
 
-    def get_head_armor(self):
-        return self._armor.head
+    def update(self):
+        self.headChanged.emit()
+        self.bodyChanged.emit()
+        self.leftArmChanged.emit()
+        self.rightArmChanged.emit()
+        self.leftLegChanged.emit()
+        self.rightLegChanged.emit()
 
-    def set_head_armor(self, value: int):
-        if self._armor.head != value:
-            self._armor.head = value
+    def get_head(self):
+        return self._controller.character.armor.head
+
+    def set_head(self, value):
+        if self._controller.character.armor.head != value:
+            self._controller.character.armor.head = value
             self.headChanged.emit()
 
-    head = Property(int, get_head_armor, set_head_armor, None, "", notify=headChanged)
+    def get_body(self):
+        return self._controller.character.armor.body
 
-    def get_body_armor(self):
-        return self._armor.body
-
-    def set_body_armor(self, value: int):
-        if self._armor.body != value:
-            self._armor.body = value
+    def set_body(self, value):
+        if self._controller.character.armor.body != value:
+            self._controller.character.armor.body = value
             self.bodyChanged.emit()
 
-    body = Property(int, get_body_armor, set_body_armor, None, "", notify=bodyChanged)
+    def get_leftArm(self):
+        return self._controller.character.armor.left_arm
 
-    def get_left_arm_armor(self):
-        return self._armor.left_arm
-
-    def set_left_arm_armor(self, value: int):
-        if self._armor.left_arm != value:
-            self._armor.left_arm = value
+    def set_leftArm(self, value):
+        if self._controller.character.armor.left_arm != value:
+            self._controller.character.armor.left_arm = value
             self.leftArmChanged.emit()
 
-    leftArm = Property(
-        int, get_left_arm_armor, set_left_arm_armor, None, "", notify=leftArmChanged
-    )
+    def get_rightArm(self):
+        return self._controller.character.armor.right_arm
 
-    def get_right_arm_armor(self):
-        return self._armor.right_arm
-
-    def set_right_arm_armor(self, value: int):
-        if self._armor.right_arm != value:
-            self._armor.right_arm = value
+    def set_rightArm(self, value):
+        if self._controller.character.armor.right_arm != value:
+            self._controller.character.armor.right_arm = value
             self.rightArmChanged.emit()
 
-    rightArm = Property(
-        int, get_right_arm_armor, set_right_arm_armor, None, "", notify=rightArmChanged
-    )
+    def get_leftLeg(self):
+        return self._controller.character.armor.left_leg
 
-    def get_left_leg_armor(self):
-        return self._armor.left_leg
-
-    def set_left_leg_armor(self, value: int):
-        if self._armor.left_leg != value:
-            self._armor.left_leg = value
+    def set_leftLeg(self, value):
+        if self._controller.character.armor.left_leg != value:
+            self._controller.character.armor.left_leg = value
             self.leftLegChanged.emit()
 
-    leftLeg = Property(
-        int, get_left_leg_armor, set_left_leg_armor, None, "", notify=leftLegChanged
-    )
+    def get_rightLeg(self):
+        return self._controller.character.armor.right_leg
 
-    def get_right_leg_armor(self):
-        return self._armor.right_leg
-
-    def set_right_leg_armor(self, value: int):
-        if self._armor.right_leg != value:
-            self._armor.right_leg = value
+    def set_rightLeg(self, value):
+        if self._controller.character.armor.right_leg != value:
+            self._controller.character.armor.right_leg = value
             self.rightLegChanged.emit()
 
-    rightLeg = Property(
-        int, get_right_leg_armor, set_right_leg_armor, None, "", notify=rightLegChanged
-    )
+    head = Property(int, get_head, set_head, notify=headChanged)
+    body = Property(int, get_body, set_body, notify=bodyChanged)
+    leftArm = Property(int, get_leftArm, set_leftArm, notify=leftArmChanged)
+    rightArm = Property(int, get_rightArm, set_rightArm, notify=rightArmChanged)
+    leftLeg = Property(int, get_leftLeg, set_leftLeg, notify=leftLegChanged)
+    rightLeg = Property(int, get_rightLeg, set_rightLeg, notify=rightLegChanged)
