@@ -29,9 +29,11 @@ dirs:
 
 main:
 	@echo 🚀 Building main GUI app...
-	"$(PYINSTALLER)" --name main --onefile --windowed \
+	"$(PYINSTALLER)" --name main --onefile --windowed  \
 		--icon="$(ICON_PATH)" \
-		--add-data=data/characters:data/characters \
+		--add-data "data/characters;data/characters" \
+		--add-data "desktop/views;desktop/views" \
+		--add-data "desktop/assets/icons;desktop/assets/icons" \
 		--distpath "$(BUILD_DIR)" \
 		--workpath "$(WORKPATH)" \
 		--clean "$(MAIN_SCRIPT)"

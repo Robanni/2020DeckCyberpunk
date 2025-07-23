@@ -10,6 +10,15 @@ from core.services.character_service import CharacterService
 from desktop.backend.character_bridge import CharacterBridge
 
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 class ApplicationInitializer:
     def __init__(self):
         os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
@@ -40,7 +49,9 @@ class ApplicationInitializer:
         )
 
     def load_main_qml(self):
-        self.engine.load(QUrl("desktop/views/MainWindow.qml"))
+        qml_path = resource_path("desktop/views/MainWindow.qml")
+        self.engine.load(QUrl.fromLocalFile(qml_path))
+
         if not self.engine.rootObjects():
             sys.exit(-1)
 
