@@ -187,7 +187,7 @@ ApplicationWindow {
                 Material.foreground: "#e94560"
 
                 Repeater {
-                    model: ["🎭 Персонаж", "🛡️ Броня", "🔧 Навыки", "⚙️ Кибернетика", "🔫 Оборудование", "📝 Жизненный Путь", "📋 Прочее"]
+                    model: ["🎭 Персонаж", "🛡️ Броня", "🔧 Навыки", "⚙️ Кибернетика", "🔫 Оборудование", "📝 Жизненный Путь", "📋 Прочее","📎 О разработчике"]
 
                     TabButton {
                         text: modelData
@@ -219,6 +219,7 @@ ApplicationWindow {
                     EquipmentTab {}
                     LifepathTab {}
                     OtherInfoTab {}
+                    DeveloperTab {}
                 }
             }
         }

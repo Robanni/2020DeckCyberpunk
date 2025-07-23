@@ -2,6 +2,7 @@ import os
 import sys
 
 from PySide6.QtCore import QUrl
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
 
@@ -12,7 +13,11 @@ from desktop.backend.character_bridge import CharacterBridge
 class ApplicationInitializer:
     def __init__(self):
         os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
+
         self.app = QApplication(sys.argv)
+
+        self.app.setWindowIcon(QIcon("desktop/assets/icons/icon.ico"))
+
         self.engine = QQmlApplicationEngine()
 
         self.character_service = None
